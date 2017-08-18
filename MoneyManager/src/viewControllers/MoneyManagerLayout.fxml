@@ -72,7 +72,7 @@
                                 </rowConstraints>
                                  <children>
                                     <Label text="Date" />
-                                    <DatePicker fx:id="dateOfCost" prefHeight="25.0" prefWidth="115.0" GridPane.columnIndex="1">
+                                    <DatePicker fx:id="dateOfExpense" prefHeight="25.0" prefWidth="115.0" promptText="Date of expense" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
@@ -147,13 +147,14 @@
                         </AnchorPane>
                       <AnchorPane>
                            <children>
-                              <HBox prefHeight="574.0" prefWidth="711.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <TableView fx:id="tableNewEntry" tableMenuButtonVisible="true">
+                                    <TableView fx:id="tableNewEntry" prefHeight="574.0" prefWidth="692.0" tableMenuButtonVisible="true">
+                                      <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
                                       <columns>
-                                        <TableColumn fx:id="tableNewEntryColumnCost" prefWidth="166.0" text="Cost" />
-                                          <TableColumn fx:id="tableNewEntryColumnCategory" prefWidth="214.0" text="Category" />
-                                          <TableColumn fx:id="tableNewEntryColumnNote" prefWidth="214.0" text="Note" />
+                                        <TableColumn fx:id="tableNewEntryColumnCost" prefWidth="146.0" resizable="false" text="Cost" />
+                                          <TableColumn fx:id="tableNewEntryColumnCategory" prefWidth="234.0" text="Category" />
+                                          <TableColumn fx:id="tableNewEntryColumnNote" maxWidth="-1.0" minWidth="100.0" prefWidth="600.0" text="Note" />
                                       </columns>
                                     </TableView>
                                  </children>

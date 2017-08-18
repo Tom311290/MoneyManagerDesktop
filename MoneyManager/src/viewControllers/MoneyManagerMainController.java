@@ -75,11 +75,17 @@ public class MoneyManagerMainController implements Initializable {
 	public void saveNewEntry(){		
 		try {			
 			
-/*			String note = newEntryNote.getText() != null ? newEntryNote.getText() : "";
-			NewEntry entry = new NewEntry(newEntryCost.getText(), currencies.getValue(), categories.getValue(), dateOfExpense.getValue().toString(), newEntryNote.getText());
-			newEntry.add(entry);*/
-
-			tableNewEntry.getItems().setAll(newEntry);
+			if(getMessages().equals("")){				
+				NewEntry entry = new NewEntry(newEntryCost.getText(), currencies.getValue(), categories.getValue(), dateOfExpense.getValue().toString(), newEntryNote.getText());
+				newEntry.add(entry);
+				tableNewEntry.getItems().setAll(newEntry);
+				
+			}else{
+				Alert alert = new Alert(AlertType.INFORMATION, getMessages(), ButtonType.OK);
+				alert.showAndWait();
+				return;
+			}
+				
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,15 +126,63 @@ public class MoneyManagerMainController implements Initializable {
 		initializeCurrencies();
     }
 	 
-	public void initializeCurrencies() {
+	 private void initializeCurrencies() {
 		ArrayList<String> currencyList = NewEntryViewInitializers.fetchDataForComboBoxes("Currencies", "Id", "null", "Currency");
 		NewEntryViewInitializers.initializeComboBox(currencies, currencyList);
 	}
 	
-	public void initializeCategories() {
+	private void initializeCategories() {
 	    ArrayList<String> categoryList = NewEntryViewInitializers.fetchDataForComboBoxes("Categories", "Id", "null", "Category");
 	    NewEntryViewInitializers.initializeComboBox(categories, categoryList);
 	}	
 
+	private String getMessages(){
+		
+		ArrayList<String> messageList = new ArrayList<String>();
+		String messages = "";
+		
+		if(dateOfExpense.getValue() == null){
+			messageList.add("Please enter day of expense!");
+			dateOfExpense.setStyle("-fx-background-color: red;" +
+								    "-fx-background-insets: 0, 1, 2;" +
+								    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+		}else{
+			dateOfExpense.setStyle("");
+		}
+		
+		if(newEntryCost.getText().equals("")){
+			messageList.add("Please enter cost of item");
+			newEntryCost.setStyle("-fx-background-color: red;" +
+				    "-fx-background-insets: 0, 1, 2;" +
+				    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+		}else{
+			newEntryCost.setStyle("");
+		}
+		
+		if(currencies.getValue().equalsIgnoreCase("n/a")){
+			messageList.add("Please enter currency");
+			currencies.setStyle("-fx-background-color: red;" +
+				    "-fx-background-insets: 0, 1, 2;" +
+				    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+		}else{
+			currencies.setStyle("");
+		}
+		
+		if(categories.getValue().equalsIgnoreCase("n/a")){
+			messageList.add("Please enter category of expense");
+			categories.setStyle("-fx-background-color: red;" +
+				    "-fx-background-insets: 0, 1, 2;" +
+				    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+		}else{
+			categories.setStyle("");
+		}
+
+		for(int i=0; i<messageList.size(); i++){
+			messages = messages + messageList.get(i) + "\n";
+		}
+
+		return messages;
+	}
+	
 }
 
