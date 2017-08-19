@@ -63,8 +63,8 @@ public class MoneyManagerMainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		initializeCurrencies();
-		initializeCategories();
+		initializeComboBox("Currencies", currencies, "Currency");
+		initializeComboBox("Categories", categories, "Category");
 		
 		tableNewEntryColumnCost.setCellValueFactory(new PropertyValueFactory<NewEntry, String>("Cost"));
 		tableNewEntryColumnCategory.setCellValueFactory(new PropertyValueFactory<NewEntry, String>("Category"));
@@ -95,47 +95,43 @@ public class MoneyManagerMainController implements Initializable {
 	 @FXML
 	 private void openEditCategoriesWindow(ActionEvent event) throws IOException{
 		
-		FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource(ConstantsClass.EDIT_CATEGORIES_LAYOUT));
-		
-		Parent root = categoriesLoader.load();
-		Scene scene = new Scene(root, 800, 500);
-		scene.getStylesheets().add(getClass().getResource(ConstantsClass.APP_CSS).toExternalForm());
-		
-		Stage editCategories = new Stage();
-		editCategories.setTitle("Edit categories");
-		editCategories.setScene(scene);
-		editCategories.showAndWait();
-		
-		initializeCategories();
+		openNewWindow("Edit categories", ConstantsClass.EDIT_CATEGORIES_LAYOUT);
+		initializeComboBox("Categories", categories, "Category");
     }
 	 
 	 @FXML
 	 private void openEditCurrenciesWindow(ActionEvent event) throws IOException{
 		
-		FXMLLoader categoriesLoader = new FXMLLoader(getClass().getResource(ConstantsClass.EDIT_CURRENCIES_LAYOUT));
-		
-		Parent root = categoriesLoader.load();
-		Scene scene = new Scene(root, 800, 500);
-		scene.getStylesheets().add(getClass().getResource(ConstantsClass.APP_CSS).toExternalForm());
-		
-		Stage editCategories = new Stage();
-		editCategories.setTitle("Edit currencies");
-		editCategories.setScene(scene);
-		editCategories.showAndWait();
-		
-		initializeCurrencies();
+		openNewWindow("Edit currencies", ConstantsClass.EDIT_CURRENCIES_LAYOUT);		
+		initializeComboBox("Currencies", currencies, "Currency");
     }
-	 
-	 private void initializeCurrencies() {
-		ArrayList<String> currencyList = NewEntryViewInitializers.fetchDataForComboBoxes("Currencies", "Id", "null", "Currency");
-		NewEntryViewInitializers.initializeComboBox(currencies, currencyList);
+	
+	private void initializeComboBox(String tableName, ComboBox<String> comboBoxId, String... resourceColumns) {
+		
+		ArrayList<String> currencyList = NewEntryViewInitializers.fetchDataForComboBoxes(tableName, "Id", "null", resourceColumns);
+		NewEntryViewInitializers.initializeComboBox(comboBoxId, currencyList);
+	}
+
+	private void openNewWindow(String windowName, String resource){
+		
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
+		
+		Parent root = null;
+		try {
+			root = fxmlLoader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Scene scene = new Scene(root, 800, 500);
+		
+		Stage stage = new Stage();
+		stage.setTitle(windowName);
+		stage.setScene(scene);
+		stage.showAndWait();
 	}
 	
-	private void initializeCategories() {
-	    ArrayList<String> categoryList = NewEntryViewInitializers.fetchDataForComboBoxes("Categories", "Id", "null", "Category");
-	    NewEntryViewInitializers.initializeComboBox(categories, categoryList);
-	}	
-
 	private String getMessages(){
 		
 		ArrayList<String> messageList = new ArrayList<String>();

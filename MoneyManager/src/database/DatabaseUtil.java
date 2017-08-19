@@ -47,7 +47,7 @@ public class DatabaseUtil {
 			//--------------------------------------------------------------------------
 			
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "INSERT INTO " + tableName + " (" + columns + ") VALUES ('" + values + "')\n";
+			String query = "INSERT INTO " + tableName + " (" + columns + ") VALUES ('" + values + "')";
 			//-----------------------------------------------------------------------------------------
 			
 			Connection conn = null;
@@ -57,7 +57,7 @@ public class DatabaseUtil {
 				
 				conn = getDBConnection();
 				ps = conn.prepareStatement(query);
-				System.out.println(query + "\n");
+				System.out.println(query);
 				ps.executeUpdate();
 				
 			}catch(SQLException e){
@@ -283,7 +283,7 @@ public static ArrayList<Currency> fetchCurrencies(){
 				ps.setString(1, searchValue);				
 			}
 			
-			System.out.println(query.replace("?", searchValue) +"\n");
+			System.out.println(query.replace("?", searchValue));
 			ps.executeUpdate();
 			
 		}catch(SQLException e){
