@@ -1,22 +1,25 @@
-package dom;
+package moneyManager.dom;
+
+import java.sql.Date;
 
 import javafx.beans.property.SimpleStringProperty;
+import moneyManager.utils.DatabaseUtil;
 
-public class NewEntry {
+public class NewEntry extends DatabaseUtil{
 	
 	private int id;
 	private SimpleStringProperty cost;
 	private SimpleStringProperty currency;
 	private SimpleStringProperty category;
-	private SimpleStringProperty date;
+	private Date date;
 	private SimpleStringProperty note;
 	
-	public NewEntry(String cost, String currency, String category, String date, String note){
+	public NewEntry(String cost, String currency, String category, String note, Date date){
 		this.cost = new SimpleStringProperty(cost);
 		this.currency = new SimpleStringProperty(currency);
 		this.category = new SimpleStringProperty(category);
-		this.date = new SimpleStringProperty(date);
 		this.note = new SimpleStringProperty(note);
+		this.date = date;
 	}
 	
 	public int getId() {
@@ -43,10 +46,10 @@ public class NewEntry {
 	public void setCategory(SimpleStringProperty category) {
 		this.category = category;
 	}
-	public String getDate() {
-		return date.getValue();
+	public Date getDate() {
+		return date;
 	}
-	public void setDate(SimpleStringProperty date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public String getNote() {

@@ -1,4 +1,4 @@
-package database;
+package moneyManager.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,12 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import constants.ConstantsClass;
-import dom.Category;
-import dom.Currency;
-
+import moneyManager.constants.ConstantsClass;
+import moneyManager.dom.*;
 
 public class DatabaseUtil {
 
@@ -75,6 +72,10 @@ public class DatabaseUtil {
 		}
 	}
 	
+	public static void insertData()
+	{
+		
+	}	
 	/**
 	 * 
 	 * @param tableName

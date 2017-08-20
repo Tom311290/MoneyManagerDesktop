@@ -1,13 +1,11 @@
-package viewControllers;
+package moneyManager.viewControllers;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import constants.ConstantsClass;
-import database.DatabaseUtil;
-import dom.Category;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +21,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import moneyManager.constants.ConstantsClass;
+import moneyManager.dom.Category;
+import moneyManager.utils.DatabaseUtil;
 
 public class CategoriesController implements Initializable{
 		
@@ -48,6 +49,9 @@ public class CategoriesController implements Initializable{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		//it will be enabled if something is written in addCategoryField
+		addCategoryButton.setDisable(true);
 		
 		tableCategoriesColumnCategory.setCellValueFactory(new PropertyValueFactory<Category, String>("Name"));
 		tableCategoriesColumnNote.setCellValueFactory(new PropertyValueFactory<Category, String>("Note"));
@@ -110,5 +114,15 @@ public class CategoriesController implements Initializable{
 		categoryList = DatabaseUtil.fetchCategories();
 
 		return categoryList;		
+	}
+	
+	@FXML
+	public void checkInput(){
+		
+		if(!addCategoryField.getText().equals("")){
+			addCategoryButton.setDisable(false);
+		}else{
+			addCategoryButton.setDisable(true);
+		}
 	}
 }

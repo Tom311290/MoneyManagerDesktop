@@ -1,8 +1,9 @@
-package dom;
+package moneyManager.dom;
 
 import javafx.beans.property.SimpleStringProperty;
+import moneyManager.utils.DatabaseUtil;
 
-public class Category {
+public class Currency extends DatabaseUtil{
 
 	private int id;
 	private SimpleStringProperty name;

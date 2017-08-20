@@ -1,8 +1,8 @@
-package viewControllers;
+package moneyManager.viewControllers;
 	
-import constants.ConstantsClass;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import moneyManager.constants.ConstantsClass;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;

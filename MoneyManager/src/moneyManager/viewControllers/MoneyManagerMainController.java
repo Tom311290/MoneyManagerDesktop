@@ -1,4 +1,4 @@
-package viewControllers;
+package moneyManager.viewControllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
-import constants.ConstantsClass;
-import dom.NewEntry;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +27,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import viewControllers.viewInitializers.NewEntryViewInitializers;
+import moneyManager.constants.ConstantsClass;
+import moneyManager.dom.NewEntry;
+import moneyManager.utils.*;
 
 public class MoneyManagerMainController implements Initializable {
 	
@@ -82,7 +82,10 @@ public class MoneyManagerMainController implements Initializable {
 			if(getMessages().equals("")){				
 				NewEntry entry = new NewEntry(newEntryCost.getText(), currencies.getValue(), categories.getValue(), dateOfExpense.getValue().toString(), newEntryNote.getText());
 				newEntry.add(entry);
+				//filling the UI table
 				tableNewEntry.getItems().setAll(newEntry);
+				//filling the database
+				DatabaseUtil.insertStringData("Costs", "C_MoneySpent, C_Currency, C_Category, C_Date", "");
 				
 			}else{
 				Alert alert = new Alert(AlertType.INFORMATION, getMessages(), ButtonType.OK);

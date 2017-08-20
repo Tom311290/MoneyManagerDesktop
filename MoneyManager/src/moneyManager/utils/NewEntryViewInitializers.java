@@ -1,11 +1,11 @@
-package viewControllers.viewInitializers;
+package moneyManager.utils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import database.DatabaseUtil;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ComboBox;
+import moneyManager.utils.DatabaseUtil;
 
 /**
  * 

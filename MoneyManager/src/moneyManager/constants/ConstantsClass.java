@@ -1,4 +1,4 @@
-package constants;
+package moneyManager.constants;
 
 public class ConstantsClass {
 
@@ -26,5 +26,5 @@ public class ConstantsClass {
 													  "-fx-background-insets: 0, 1, 2;" +
 													  "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;";*/
 	
-	static public final String STYLE_WRONG_INPUT = "	-fx-effect: innershadow( three-pass-box, rgba( 255, 0, 0, 0.5 ), 10, 0, 0, 0 );";
+	static public final String STYLE_WRONG_INPUT = "-fx-effect: innershadow( three-pass-box, rgba( 255, 0, 0, 0.5 ), 10, 0, 0, 0 );";
 }

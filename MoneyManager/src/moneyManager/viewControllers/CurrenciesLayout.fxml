@@ -10,21 +10,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewControllers.CategoriesController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moneyManager.viewControllers.CurrenciesController">
    <children>
       <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="tableCategories" editable="true">
+            <TableView fx:id="tableCurrencies" editable="true">
               <columns>
-                <TableColumn fx:id="tableCategoriesColumnCategory" editable="false" prefWidth="134.0" text="Category" />
-                  <TableColumn fx:id="tableCategoriesColumnNote" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" text="Note" />
+                <TableColumn fx:id="tableCurrenciesColumnCurrency" editable="false" prefWidth="134.0" text="Currency" />
+                  <TableColumn fx:id="tableCurrenciesColumnNote" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" text="Note" />
               </columns>
             </TableView>
             <VBox>
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="addCategoryField" alignment="CENTER" promptText="Add category">
+                        <TextField fx:id="addCurrencyField" alignment="CENTER" promptText="Add currency">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -32,7 +32,7 @@
                               <Insets left="5.0" right="5.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="addCategoryButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#addCategory" text="Add">
+                        <Button fx:id="addCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#addCurrency" text="Add">
                            <HBox.margin>
                               <Insets right="5.0" top="10.0" />
                            </HBox.margin>
@@ -40,7 +40,7 @@
                               <Insets />
                            </opaqueInsets>
                         </Button>
-                        <Button fx:id="deleteCategoryButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#deleteCategory" text="Delete">
+                        <Button fx:id="deleteCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#deleteCurrency" text="Delete">
                            <HBox.margin>
                               <Insets right="5.0" top="10.0" />
                            </HBox.margin>
@@ -48,7 +48,7 @@
                               <Insets />
                            </opaqueInsets>
                         </Button>
-                        <Button fx:id="closeCategoryButton" alignment="BOTTOM_RIGHT" layoutX="212.0" layoutY="20.0" mnemonicParsing="false" onAction="#closeWindow" text="Close">
+                        <Button fx:id="closeCurrencyButton" alignment="BOTTOM_RIGHT" layoutX="212.0" layoutY="20.0" mnemonicParsing="false" onAction="#closeWindow" text="Close">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
