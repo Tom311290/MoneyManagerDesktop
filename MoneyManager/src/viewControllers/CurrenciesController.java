@@ -96,25 +96,9 @@ public class CurrenciesController implements Initializable{
 			tableCurrencies.getItems().setAll(initializeTableCurrencies());
 		}else{
 			return;
-		}
-		
+		}		
 	}
-	
-	@FXML
-	public ArrayList<String> sendCategoriesToParentScreen(){
-		
-		ArrayList <String> data = new ArrayList <String>();
-		
-		try {
-			data = DatabaseUtil.fetchData("Categories", "Category", "null", "Category");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return data;
-	}
-	
+
 	public void closeWindow(){
 	    Stage stage = (Stage) closeCurrencyButton.getScene().getWindow();
 	    stage.close();

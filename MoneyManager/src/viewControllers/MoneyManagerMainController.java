@@ -3,6 +3,8 @@ package viewControllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import constants.ConstantsClass;
@@ -11,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -84,8 +88,7 @@ public class MoneyManagerMainController implements Initializable {
 				Alert alert = new Alert(AlertType.INFORMATION, getMessages(), ButtonType.OK);
 				alert.showAndWait();
 				return;
-			}
-				
+			}				
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,36 +142,28 @@ public class MoneyManagerMainController implements Initializable {
 		
 		if(dateOfExpense.getValue() == null){
 			messageList.add("Please enter day of expense!");
-			dateOfExpense.setStyle("-fx-background-color: red;" +
-								    "-fx-background-insets: 0, 1, 2;" +
-								    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+			dateOfExpense.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
 		}else{
 			dateOfExpense.setStyle("");
 		}
 		
 		if(newEntryCost.getText().equals("")){
 			messageList.add("Please enter cost of item");
-			newEntryCost.setStyle("-fx-background-color: red;" +
-				    "-fx-background-insets: 0, 1, 2;" +
-				    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+			newEntryCost.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
 		}else{
 			newEntryCost.setStyle("");
 		}
 		
 		if(currencies.getValue().equalsIgnoreCase("n/a")){
 			messageList.add("Please enter currency");
-			currencies.setStyle("-fx-background-color: red;" +
-				    "-fx-background-insets: 0, 1, 2;" +
-				    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+			currencies.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
 		}else{
 			currencies.setStyle("");
 		}
 		
 		if(categories.getValue().equalsIgnoreCase("n/a")){
 			messageList.add("Please enter category of expense");
-			categories.setStyle("-fx-background-color: red;" +
-				    "-fx-background-insets: 0, 1, 2;" +
-				    "-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+			categories.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
 		}else{
 			categories.setStyle("");
 		}
@@ -179,6 +174,5 @@ public class MoneyManagerMainController implements Initializable {
 
 		return messages;
 	}
-	
 }
 

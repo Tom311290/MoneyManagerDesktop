@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import database.DatabaseUtil;
+import javafx.beans.binding.Bindings;
 import javafx.scene.control.ComboBox;
 
 /**
@@ -37,6 +38,9 @@ public class NewEntryViewInitializers {
 		
 		comboBox.getItems().clear();
 		comboBox.getItems().addAll(list);
-		comboBox.getSelectionModel().select(list.size() != 0 ? list.get(0) : "N/A");
+		
+		comboBox.disableProperty().bind(Bindings.isEmpty(comboBox.getItems()));
+		comboBox.getSelectionModel().select(list.size() != 0 ? list.get(0) : "N/A" );
+		
 	}
 }

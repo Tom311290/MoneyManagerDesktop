@@ -4,3 +4,10 @@
 	-fx-padding: 10px; 
 	-fx-font-family: Calibry;
 }
+
+.textField {
+
+	-fx-color: rgba(0,142,198,1);
+	-fx-background: rgba(255,0,0,0.25);
+}
+

@@ -98,21 +98,6 @@ public class CategoriesController implements Initializable{
 	}
 	
 	@FXML
-	public ArrayList<String> sendCategoriesToParentScreen(){
-		
-		ArrayList <String> data = new ArrayList <String>();
-		
-		try {
-			data = DatabaseUtil.fetchData("Categories", "Category", "null", "Category");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return data;
-	}
-	
-	@FXML
 	public void closeWindow(){
 
 		Stage stage = (Stage) closeCategoryButton.getScene().getWindow();
