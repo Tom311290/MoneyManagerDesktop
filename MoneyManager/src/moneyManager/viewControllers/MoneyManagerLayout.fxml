@@ -169,7 +169,7 @@
                   </SplitPane>
                </content>
           </Tab>
-          <Tab fx:id="expensesTab" onSelectionChanged="#initializeTableExpensesOverview" text="Expenses">
+          <Tab fx:id="expensesTab" text="Expenses">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>

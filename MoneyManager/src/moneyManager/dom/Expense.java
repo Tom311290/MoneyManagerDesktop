@@ -77,12 +77,12 @@ public class Expense{
 		this.entryDate = new SimpleStringProperty(date);
 	}
 
-	public SimpleStringProperty getExpenseDate() {
-		return expenseDate;
+	public String getExpenseDate() {
+		return expenseDate.getValue();
 	}
 
-	public void setExpenseDate(String expenseDate) {
-		this.expenseDate = new SimpleStringProperty(expenseDate);
+	public void setExpenseDate(String date) {
+		this.expenseDate = new SimpleStringProperty(date);
 	}
 
 }

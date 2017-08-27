@@ -94,6 +94,7 @@ public class MoneyManagerMainController implements Initializable {
 		initializeComboBox("Currencies", currencies, "Currency");
 		initializeComboBox("Categories", categories, "Category");
 		initializeTableNewEntry();
+		initializeTableExpensesOverview();
 	}
 
 	
@@ -106,11 +107,13 @@ public class MoneyManagerMainController implements Initializable {
 				Expense entry = new Expense(newEntryCost.getText(), currencies.getValue(), categories.getValue(), newEntryNote.getText(), dateOfExpense.getValue().toString());
 				newEntry.add(entry);
 				//filling the UI table
-				tableNewEntry.getItems().setAll(newEntry);
+				tableNewEntry.getItems().setAll(newEntry);				
 				
 				String entryString = newEntryCost.getText() +", '" + currencies.getValue() + "', '" + categories.getValue() + "', '" + newEntryNote.getText() + "', to_date('" + dateOfExpense.getValue() + "', 'YYYY-MM-dd'), to_date('" + entry.getEntryDate()  + "', 'YYYY-MM-dd')";
 				String columns = "MoneySpent, Currency, Category, Note, ExpenseDate, EntryDate";
 				DatabaseUtil.insertData("Expenses", columns, entryString);
+				
+				initializeTableExpensesOverview();
 			}else{
 				Alert alert = new Alert(AlertType.INFORMATION, getMessages(), ButtonType.OK);
 				alert.showAndWait();
@@ -135,8 +138,7 @@ public class MoneyManagerMainController implements Initializable {
 		openNewWindow("Edit currencies", ConstantsClass.EDIT_CURRENCIES_LAYOUT);		
 		initializeComboBox("Currencies", currencies, "Currency");
     }
-	 
-	@FXML
+
 	private void initializeTableExpensesOverview(){
 		
 		tableExpensesOverviewColumnCategory.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.2));
@@ -149,10 +151,10 @@ public class MoneyManagerMainController implements Initializable {
 		tableExpensesOverviewColumnCurrency.setCellValueFactory(new PropertyValueFactory<Expense, String>("Currency"));
 		
 		tableExpensesOverviewColumnExpenseDate.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnExpenseDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("Date of expense"));
+		tableExpensesOverviewColumnExpenseDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("expenseDate"));
 		
 		tableExpensesOverviewColumnEntryDate.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnEntryDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("Date of entry"));
+		tableExpensesOverviewColumnEntryDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("entryDate"));
 		
 		tableExpensesOverviewColumnNote.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.4));
 		tableExpensesOverviewColumnNote.setCellValueFactory(new PropertyValueFactory<Expense, String>("Note"));
