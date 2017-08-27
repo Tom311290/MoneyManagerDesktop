@@ -16,15 +16,15 @@
          <children>
             <TableView fx:id="tableCurrencies" editable="true">
               <columns>
-                <TableColumn fx:id="tableCurrenciesColumnCurrency" editable="false" prefWidth="134.0" text="Currency" />
-                  <TableColumn fx:id="tableCurrenciesColumnNote" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" text="Note" />
+                <TableColumn fx:id="tableCurrenciesColumnCurrency" prefWidth="75.0" resizable="false" text="Currency" />
+                  <TableColumn fx:id="tableCurrenciesColumnNote" prefWidth="75.0" resizable="false" text="Note" />
               </columns>
             </TableView>
             <VBox>
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="addCurrencyField" alignment="CENTER" promptText="Add currency">
+                        <TextField fx:id="addCurrencyField" alignment="CENTER" onKeyReleased="#checkInput" promptText="Add currency">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -32,37 +32,41 @@
                               <Insets left="5.0" right="5.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="addCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#addCurrency" text="Add">
+                        <TextArea fx:id="addNoteField" prefHeight="400.0" promptText="Add note" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets right="5.0" top="10.0" />
+                              <Insets bottom="10.0" right="5.0" top="10.0" />
                            </HBox.margin>
+                        </TextArea>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="addCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#addCurrency" text="Add" HBox.hgrow="ALWAYS">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
-                        </Button>
-                        <Button fx:id="deleteCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#deleteCurrency" text="Delete">
                            <HBox.margin>
-                              <Insets right="5.0" top="10.0" />
+                              <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
                            </HBox.margin>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
                         </Button>
-                        <Button fx:id="closeCurrencyButton" alignment="BOTTOM_RIGHT" layoutX="212.0" layoutY="20.0" mnemonicParsing="false" onAction="#closeWindow" text="Close">
+                        <Button fx:id="deleteCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#deleteCurrency" text="Delete" HBox.hgrow="ALWAYS">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
                            <HBox.margin>
-                              <Insets top="10.0" />
+                              <Insets bottom="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="closeCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#closeWindow" text="Close" HBox.hgrow="ALWAYS">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
-                  <TextArea fx:id="addNoteField" prefHeight="200.0" prefWidth="200.0" promptText="Add note">
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="5.0" right="20.0" top="10.0" />
-                     </VBox.margin>
-                  </TextArea>
                </children>
             </VBox>
          </children>

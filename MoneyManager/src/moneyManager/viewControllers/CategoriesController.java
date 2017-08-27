@@ -20,6 +20,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import moneyManager.constants.ConstantsClass;
 import moneyManager.dom.Category;
@@ -51,9 +52,12 @@ public class CategoriesController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		//it will be enabled if something is written in addCategoryField
-		addCategoryButton.setDisable(true);
+		addCategoryButton.setDisable(true);		
 		
+		tableCategoriesColumnCategory.prefWidthProperty().bind(tableCategories.widthProperty().multiply(0.2));
 		tableCategoriesColumnCategory.setCellValueFactory(new PropertyValueFactory<Category, String>("Name"));
+		
+		tableCategoriesColumnNote.prefWidthProperty().bind(tableCategories.widthProperty().multiply(0.8));
 		tableCategoriesColumnNote.setCellValueFactory(new PropertyValueFactory<Category, String>("Note"));
 		
 		tableCategories.getItems().setAll(initializeTableCategories());
@@ -63,7 +67,7 @@ public class CategoriesController implements Initializable{
 	public void addCategory(){		
 		
 		try {
-			DatabaseUtil.insertStringData("Categories", "Category, Note", addCategoryField.getText() + "', '" + addNoteField.getText());
+			DatabaseUtil.insertData("Categories", "Category, Note", "'" + addCategoryField.getText() + "', '" + addNoteField.getText() + "'");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -108,14 +112,6 @@ public class CategoriesController implements Initializable{
 	    stage.close();
 	}
 	
-	private ArrayList<Category> initializeTableCategories (){
-		
-		ArrayList<Category> categoryList = new ArrayList<Category>();		
-		categoryList = DatabaseUtil.fetchCategories();
-
-		return categoryList;		
-	}
-	
 	@FXML
 	public void checkInput(){
 		
@@ -124,5 +120,13 @@ public class CategoriesController implements Initializable{
 		}else{
 			addCategoryButton.setDisable(true);
 		}
+	}
+	
+	private ArrayList<Category> initializeTableCategories (){
+		
+		ArrayList<Category> categoryList = new ArrayList<Category>();		
+		categoryList = DatabaseUtil.fetchCategories();
+
+		return categoryList;		
 	}
 }

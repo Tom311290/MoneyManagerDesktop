@@ -49,7 +49,12 @@ public class CurrenciesController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		addCurrencyButton.setDisable(true);
+		
+		tableCurrenciesColumnCurrency.prefWidthProperty().bind(tableCurrencies.widthProperty().multiply(0.2));
 		tableCurrenciesColumnCurrency.setCellValueFactory(new PropertyValueFactory<Currency, String>("Name"));
+		
+		tableCurrenciesColumnNote.prefWidthProperty().bind(tableCurrencies.widthProperty().multiply(0.8));
 		tableCurrenciesColumnNote.setCellValueFactory(new PropertyValueFactory<Currency, String>("Note"));
 		
 		tableCurrencies.getItems().setAll(initializeTableCurrencies());
@@ -59,7 +64,15 @@ public class CurrenciesController implements Initializable{
 	public void addCurrency(){		
 		
 		try {
-			DatabaseUtil.insertStringData("Currencies", "Currency, Note", addCurrencyField.getText() + "', '" + addNoteField.getText());
+			if(addCurrencyField.getText().equals("")){
+				Alert alert = new Alert(AlertType.INFORMATION, "Please enter currency", ButtonType.OK);
+				addCurrencyField.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
+				alert.showAndWait();
+				return;
+			}else{
+				DatabaseUtil.insertData("Currencies", "Currency, Note", "'" + addCurrencyField.getText() + "', '" + addNoteField.getText() + "'");
+				addCurrencyField.setStyle("");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,6 +112,16 @@ public class CurrenciesController implements Initializable{
 		}		
 	}
 
+	@FXML
+	public void checkInput(){
+		
+		if(!addCurrencyField.getText().equals("")){
+			addCurrencyButton.setDisable(false);
+		}else{
+			addCurrencyButton.setDisable(true);
+		}
+	}
+	
 	public void closeWindow(){
 	    Stage stage = (Stage) closeCurrencyButton.getScene().getWindow();
 	    stage.close();

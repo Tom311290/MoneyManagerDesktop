@@ -21,7 +21,7 @@ public class Main extends Application {
 			
 			//Parent root = FXMLLoader.load(getClass().getResource(ConstantsClass.MONEY_MANAGER_LAYOUT));
 			Parent root = FXMLLoader.load(getClass().getResource(ConstantsClass.MONEY_MANAGER_LAYOUT));
-			Scene scene = new Scene(root,800, 500);
+			Scene scene = new Scene(root, 1200, 800);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Money manager");
 			primaryStage.setScene(scene);

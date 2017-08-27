@@ -1,11 +1,12 @@
 package moneyManager.dom;
 
+import java.sql.Date;
+
 import javafx.beans.property.SimpleStringProperty;
-import moneyManager.utils.DatabaseUtil;
 
-public class Currency extends DatabaseUtil{
+public class Currency{
 
-	private int id;
+	int id;
 	private SimpleStringProperty name;
 	private SimpleStringProperty note;
 	
