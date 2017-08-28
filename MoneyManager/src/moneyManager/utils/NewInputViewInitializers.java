@@ -12,7 +12,7 @@ import moneyManager.utils.DatabaseUtil;
  * @author Tomislav
  * Used for initialization of data in combo boxes, tables etc. in New Entry tab
  */
-public class NewEntryViewInitializers {
+public class NewInputViewInitializers {
 	
 	/**
 	 * 

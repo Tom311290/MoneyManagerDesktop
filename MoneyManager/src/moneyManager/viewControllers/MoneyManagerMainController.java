@@ -38,16 +38,16 @@ public class MoneyManagerMainController implements Initializable {
 	
 //-------New entry variables------------------------------------------------
 	@FXML
-	public Button newEntrySaveButton;
+	public Button newInputSaveButton;
 	@FXML
-	public Button newEntryCancelButton;
+	public Button newInputCancelButton;
 	@FXML
-	public Button newEntryEditCurrenciesButton;
+	public Button newInputEditCurrenciesButton;
 	@FXML
-	public Button newEntryEditCategoriesButton;
+	public Button newInputEditCategoriesButton;
 	
 	@FXML
-	public TextArea newEntryNote;
+	public TextArea newInputNote;
 	@FXML
 	public ComboBox<String> currencies = new ComboBox<String>();	
 	@FXML
@@ -55,23 +55,33 @@ public class MoneyManagerMainController implements Initializable {
 	@FXML
 	public DatePicker dateOfExpense;
 	@FXML
-	public TextField newEntryCost;
+	public TextField newInputCost;
 	
 	@FXML
-	public TableView<Expense> tableNewEntry;
+	public TableView<Expense> tableNewInput;
 	@FXML
-	public TableColumn<Expense, String> tableNewEntryColumnCost;
+	public TableColumn<Expense, String> tableNewInputColumnCost;
 	@FXML
-	public TableColumn<Expense, String> tableNewEntryColumnCategory;
+	public TableColumn<Expense, String> tableNewInputColumnCategory;
 	@FXML
-	public TableColumn<Expense, String> tableNewEntryColumnNote;
+	public TableColumn<Expense, String> tableNewInputColumnNote;
 	@FXML
-	public TableColumn<Expense, String> tableNewEntryColumnDate;
+	public TableColumn<Expense, String> tableNewInputColumnDate;
 
-	ArrayList <Expense> newEntry = new ArrayList<Expense>();
+	ArrayList <Expense> inputList = new ArrayList<Expense>();
 //-------------------------------------------------------------------------------
 	
 //-------Expenses table variables------------------------------------------------
+	
+	@FXML
+	public ComboBox<String> expensesPreviewCurrencies = new ComboBox<String>();	
+	@FXML
+	public ComboBox<String> expensesPreviewCategories = new ComboBox<String>();
+	@FXML
+	public DatePicker expensesPreviewDateOfExpense;
+	@FXML
+	public DatePicker expensesPreviewDateOfInput;
+	
 	@FXML
 	public TableView<Expense> tableExpensesOverview;
 	@FXML
@@ -83,7 +93,7 @@ public class MoneyManagerMainController implements Initializable {
 	@FXML
 	public TableColumn<Expense, String> tableExpensesOverviewColumnExpenseDate;
 	@FXML
-	public TableColumn<Expense, String> tableExpensesOverviewColumnEntryDate;
+	public TableColumn<Expense, String> tableExpensesOverviewColumnInputDate;
 	@FXML
 	public TableColumn<Expense, String> tableExpensesOverviewColumnNote;
 //-------------------------------------------------------------------------------
@@ -93,24 +103,26 @@ public class MoneyManagerMainController implements Initializable {
 
 		initializeComboBox("Currencies", currencies, "Currency");
 		initializeComboBox("Categories", categories, "Category");
-		initializeTableNewEntry();
+		initializeComboBox("Currencies", expensesPreviewCurrencies, "Currency");
+		initializeComboBox("Categories", expensesPreviewCategories, "Category");
+		initializeTableNewInput();
 		initializeTableExpensesOverview();
 	}
 
 	
 	@FXML
-	public void saveNewEntry(){		
+	public void saveNewInput(){		
 		try {			
 			
 			if(getMessages().equals("")){
 				 
-				Expense entry = new Expense(newEntryCost.getText(), currencies.getValue(), categories.getValue(), newEntryNote.getText(), dateOfExpense.getValue().toString());
-				newEntry.add(entry);
+				Expense newInput = new Expense(newInputCost.getText(), currencies.getValue(), categories.getValue(), newInputNote.getText(), dateOfExpense.getValue().toString());
+				inputList.add(newInput);
 				//filling the UI table
-				tableNewEntry.getItems().setAll(newEntry);				
+				tableNewInput.getItems().setAll(newInput);				
 				
-				String entryString = newEntryCost.getText() +", '" + currencies.getValue() + "', '" + categories.getValue() + "', '" + newEntryNote.getText() + "', to_date('" + dateOfExpense.getValue() + "', 'YYYY-MM-dd'), to_date('" + entry.getEntryDate()  + "', 'YYYY-MM-dd')";
-				String columns = "MoneySpent, Currency, Category, Note, ExpenseDate, EntryDate";
+				String entryString = newInputCost.getText() +", '" + currencies.getValue() + "', '" + categories.getValue() + "', '" + newInputNote.getText() + "', to_date('" + dateOfExpense.getValue() + "', 'YYYY-MM-dd'), to_date('" + newInput.getInputDate()  + "', 'YYYY-MM-dd')";
+				String columns = "MoneySpent, Currency, Category, Note, ExpenseDate, InputDate";
 				DatabaseUtil.insertData("Expenses", columns, entryString);
 				
 				initializeTableExpensesOverview();
@@ -141,9 +153,9 @@ public class MoneyManagerMainController implements Initializable {
 
 	private void initializeTableExpensesOverview(){
 		
-		tableExpensesOverviewColumnCategory.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.2));
+		tableExpensesOverviewColumnCategory.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
 		tableExpensesOverviewColumnCategory.setCellValueFactory(new PropertyValueFactory<Expense, String>("Category"));
-		
+
 		tableExpensesOverviewColumnCost.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
 		tableExpensesOverviewColumnCost.setCellValueFactory(new PropertyValueFactory<Expense, String>("Cost"));
 		
@@ -153,8 +165,8 @@ public class MoneyManagerMainController implements Initializable {
 		tableExpensesOverviewColumnExpenseDate.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
 		tableExpensesOverviewColumnExpenseDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("expenseDate"));
 		
-		tableExpensesOverviewColumnEntryDate.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnEntryDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("entryDate"));
+		tableExpensesOverviewColumnInputDate.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
+		tableExpensesOverviewColumnInputDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("inputDate"));
 		
 		tableExpensesOverviewColumnNote.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.4));
 		tableExpensesOverviewColumnNote.setCellValueFactory(new PropertyValueFactory<Expense, String>("Note"));
@@ -173,8 +185,8 @@ public class MoneyManagerMainController implements Initializable {
 	
 	private void initializeComboBox(String tableName, ComboBox<String> comboBoxId, String... resourceColumns) {
 		
-		ArrayList<String> currencyList = NewEntryViewInitializers.fetchDataForComboBoxes(tableName, "Id", "null", resourceColumns);
-		NewEntryViewInitializers.initializeComboBox(comboBoxId, currencyList);
+		ArrayList<String> currencyList = NewInputViewInitializers.fetchDataForComboBoxes(tableName, "Id", "null", resourceColumns);
+		NewInputViewInitializers.initializeComboBox(comboBoxId, currencyList);
 	}
 
 	private void openNewWindow(String windowName, String resource){
@@ -198,19 +210,19 @@ public class MoneyManagerMainController implements Initializable {
 	}
 	
 	
-	private void initializeTableNewEntry(){
+	private void initializeTableNewInput(){
 		
-		tableNewEntryColumnCost.prefWidthProperty().bind(tableNewEntry.widthProperty().multiply(0.2));
-		tableNewEntryColumnCost.setCellValueFactory(new PropertyValueFactory<Expense, String>("Cost"));
+		tableNewInputColumnCost.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.2));
+		tableNewInputColumnCost.setCellValueFactory(new PropertyValueFactory<Expense, String>("Cost"));
 		
-		tableNewEntryColumnCategory.prefWidthProperty().bind(tableNewEntry.widthProperty().multiply(0.2));
-		tableNewEntryColumnCategory.setCellValueFactory(new PropertyValueFactory<Expense, String>("Category"));
+		tableNewInputColumnCategory.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.2));
+		tableNewInputColumnCategory.setCellValueFactory(new PropertyValueFactory<Expense, String>("Category"));
 		
-		tableNewEntryColumnNote.prefWidthProperty().bind(tableNewEntry.widthProperty().multiply(0.4));
-		tableNewEntryColumnNote.setCellValueFactory(new PropertyValueFactory<Expense, String>("Note"));
+		tableNewInputColumnNote.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.4));
+		tableNewInputColumnNote.setCellValueFactory(new PropertyValueFactory<Expense, String>("Note"));
 		
-		tableNewEntryColumnDate.prefWidthProperty().bind(tableNewEntry.widthProperty().multiply(0.2));
-		tableNewEntryColumnDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("Date"));
+		tableNewInputColumnDate.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.2));
+		tableNewInputColumnDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("Date"));
 	}
 	
 
@@ -227,11 +239,11 @@ public class MoneyManagerMainController implements Initializable {
 			dateOfExpense.setStyle("");
 		}
 		
-		if(newEntryCost.getText().equals("")){
+		if(newInputCost.getText().equals("")){
 			messageList.add("Please enter cost of item");
-			newEntryCost.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
+			newInputCost.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
 		}else{
-			newEntryCost.setStyle("");
+			newInputCost.setStyle("");
 		}
 		
 		if(currencies.getValue().equalsIgnoreCase("n/a")){

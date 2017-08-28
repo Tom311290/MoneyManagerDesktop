@@ -288,7 +288,7 @@ public class DatabaseUtil {
 				expense.setCategory(rs.getString("Category"));
 				expense.setNote(rs.getString("Note"));
 				expense.setExpenseDate(rs.getString("ExpenseDate").toString());
-				expense.setEntryDate(rs.getString("EntryDate").toString());
+				expense.setInputDate(rs.getString("InputDate").toString());
 				
 				fetchedCurrencies.add(expense);				
 			}

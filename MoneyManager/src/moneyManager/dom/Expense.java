@@ -13,7 +13,7 @@ public class Expense{
 	private SimpleStringProperty cost;
 	private SimpleStringProperty currency;
 	private SimpleStringProperty category;
-	private SimpleStringProperty entryDate;
+	private SimpleStringProperty inputDate;
 	private SimpleStringProperty expenseDate;
 	
 	public Expense(String cost, String currency, String category, String note, String expenseDate){
@@ -22,7 +22,7 @@ public class Expense{
 		this.category = new SimpleStringProperty(category);
 		this.note = new SimpleStringProperty(note);
 		this.expenseDate = new SimpleStringProperty(expenseDate);
-		this.entryDate = new SimpleStringProperty(LocalDate.now().toString());
+		this.inputDate = new SimpleStringProperty(LocalDate.now().toString());
 	}
 	
 	public Expense(){
@@ -69,14 +69,14 @@ public class Expense{
 		this.note = new SimpleStringProperty(note);
 	}
 
-	public String getEntryDate() {
-		return entryDate.getValue().toString();
+	public String getInputDate() {
+		return inputDate.getValue().toString();
 	}
 
-	public void setEntryDate(String date) {
-		this.entryDate = new SimpleStringProperty(date);
+	public void setInputDate(String date) {
+		this.inputDate = new SimpleStringProperty(date);
 	}
-
+	
 	public String getExpenseDate() {
 		return expenseDate.getValue();
 	}
