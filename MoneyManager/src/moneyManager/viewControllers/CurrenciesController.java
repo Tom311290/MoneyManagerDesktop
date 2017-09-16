@@ -3,6 +3,7 @@ package moneyManager.viewControllers;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -22,7 +23,11 @@ import javafx.stage.Stage;
 import moneyManager.constants.ConstantsClass;
 import moneyManager.dom.Category;
 import moneyManager.dom.Currency;
+import moneyManager.dom.Expense;
+import moneyManager.dom.ExpensesData;
+import moneyManager.utils.ButtonsUtil;
 import moneyManager.utils.DatabaseUtil;
+import moneyManager.utils.InitializerUtil;
 
 public class CurrenciesController implements Initializable{
 	
@@ -39,7 +44,7 @@ public class CurrenciesController implements Initializable{
 	public TextArea addNoteField;
 	
 	@FXML
-	public TableView<Currency> tableCurrencies;
+	public TableView<ExpensesData> tableCurrencies;
 	@FXML
 	public TableColumn<Currency, String> tableCurrenciesColumnCurrency;
 	@FXML
@@ -51,13 +56,22 @@ public class CurrenciesController implements Initializable{
 		
 		addCurrencyButton.setDisable(true);
 		
-		tableCurrenciesColumnCurrency.prefWidthProperty().bind(tableCurrencies.widthProperty().multiply(0.2));
-		tableCurrenciesColumnCurrency.setCellValueFactory(new PropertyValueFactory<Currency, String>("Name"));
+		System.out.println("\n------------Initializing table columns--------------------");
+		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
 		
-		tableCurrenciesColumnNote.prefWidthProperty().bind(tableCurrencies.widthProperty().multiply(0.8));
-		tableCurrenciesColumnNote.setCellValueFactory(new PropertyValueFactory<Currency, String>("Note"));
+		columnsInfo.put(tableCurrenciesColumnCurrency, 0.2);
+		columnsInfo.put(tableCurrenciesColumnNote, 0.8);
 		
-		tableCurrencies.getItems().setAll(initializeTableCurrencies());
+		InitializerUtil.initializeTableColumns(columnsInfo);
+		System.out.println("----------------------------------------------------------");
+		
+		System.out.println("\n---------------Initializing table data------------------------");
+
+		//InitializerUtil.initializeTableData();
+		
+		System.out.println("----------------------------------------------------------");
+		
+		//tableCurrencies.getItems().setAll(InitializerUtil.fetchTableData(new Currency()));
 	}
 	
 	@FXML
@@ -79,37 +93,14 @@ public class CurrenciesController implements Initializable{
 		}	
 	
 		//fill table with fresh data
-		tableCurrencies.getItems().setAll(initializeTableCurrencies());
+		//tableCurrencies.getItems().setAll(initializeTableCurrencies());
 	}
 	
 	@FXML
 	public void deleteCurrency(){
 		
-		if(tableCurrencies.getSelectionModel().getSelectedItem() == null){
-			Alert alert = new Alert(AlertType.INFORMATION, ConstantsClass.INFO_MESSAGE_NOT_SELECTED_FOR_DELETE, ButtonType.OK);
-			alert.showAndWait();
-			return;
-		}
-		
-		Currency selectedCurrency = tableCurrencies.getSelectionModel().getSelectedItem();
-		
-		Alert alert = new Alert(AlertType.WARNING, ConstantsClass.WARNING_MESSAGE_DELETE_ITEM + "currency: " + selectedCurrency.getName() + "?", ButtonType.YES, ButtonType.NO);
-		alert.showAndWait();
-		
-		if (alert.getResult() == ButtonType.YES){
-			
-			try {
-				DatabaseUtil.deleteData("Currencies", "Id", selectedCurrency.getId() + "");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//fill table with fresh data
-			tableCurrencies.getItems().setAll(initializeTableCurrencies());
-		}else{
-			return;
-		}		
+		Currency selectedData = (Currency) tableCurrencies.getSelectionModel().getSelectedItem();
+		ButtonsUtil.deleteSelectedData(tableCurrencies, selectedData);	
 	}
 
 	@FXML
@@ -125,13 +116,5 @@ public class CurrenciesController implements Initializable{
 	public void closeWindow(){
 	    Stage stage = (Stage) closeCurrencyButton.getScene().getWindow();
 	    stage.close();
-	}
-	
-	private ArrayList<Currency> initializeTableCurrencies(){
-		
-		ArrayList<Currency> currencyList = new ArrayList<Currency>();		
-		currencyList = DatabaseUtil.fetchCurrencies();
-
-		return currencyList;		
 	}
 }

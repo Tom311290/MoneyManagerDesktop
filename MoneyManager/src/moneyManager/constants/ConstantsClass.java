@@ -18,7 +18,7 @@ public class ConstantsClass {
 	static public final String APP_CSS = "application.css";
 	
 	//messages
-	static public final String WARNING_MESSAGE_DELETE_ITEM = "Are You sure you want to delete ";
+	static public final String WARNING_MESSAGE_DELETE_ITEM = "Are You sure you want to delete selected item?";
 	static public final String INFO_MESSAGE_NOT_SELECTED_FOR_DELETE = "Please select item you want to delete!";
 	
 	//runtime styles

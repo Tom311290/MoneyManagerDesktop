@@ -202,9 +202,9 @@ public class DatabaseUtil {
 		return fetchedCategories;
 	}
 	
-	public static ArrayList<Currency> fetchCurrencies(){
+	public static ArrayList<ExpensesData> fetchData(ExpensesData expenseObject){
 		
-		ArrayList<Currency> fetchedCurrencies = new ArrayList<Currency>();
+		ArrayList<ExpensesData> fetchedCurrencies = new ArrayList<ExpensesData>();
 		
 		
 		Connection conn = null;
@@ -213,7 +213,7 @@ public class DatabaseUtil {
 		
 		try{
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM Currencies WHERE Id IS NOT NULL";
+			String query = "SELECT * FROM " + expenseObject.getTableName() + " WHERE Id IS NOT NULL";
 			//-----------------------------------------------------------------------------------------
 
 			conn = getDBConnection();
@@ -229,13 +229,12 @@ public class DatabaseUtil {
 			ps.executeQuery();
 			rs = ps.getResultSet();
 			
-			while(rs.next()){				
-				Currency currency = new Currency();				
-				currency.setId(rs.getInt("Id"));
-				currency.setName(rs.getString("Currency"));
-				currency.setNote(rs.getString("Note"));
+			while(rs.next()){								
+				expenseObject.setId(rs.getInt("Id"));
+				expenseObject.setName(rs.getString("Currency"));
+				expenseObject.setNote(rs.getString("Note"));
 				
-				fetchedCurrencies.add(currency);				
+				fetchedCurrencies.add(expenseObject);				
 			}
 		
 			rs.close();
@@ -264,7 +263,7 @@ public class DatabaseUtil {
 		
 		try{
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM Expenses WHERE Id IS NOT NULL";
+			String query = "SELECT * FROM expenses WHERE Id IS NOT NULL";
 			//-----------------------------------------------------------------------------------------
 
 			conn = getDBConnection();
@@ -308,10 +307,10 @@ public class DatabaseUtil {
 		return fetchedCurrencies;
 	}
 	
-	public static void deleteData(String tableName, String searchInColumnName, String searchValue) throws SQLException{
+	public static void deleteData(String tableName, String columnName, String searchValue) throws SQLException{
 				
 		//QUERY STRING INIT------------------------------------------------------------------------
-		String query = "DELETE FROM " + tableName + " WHERE "+ searchInColumnName + " = ?";
+		String query = "DELETE FROM " + tableName + " WHERE "+ columnName + " = ?";
 		//-----------------------------------------------------------------------------------------
 		
 		Connection conn = null;

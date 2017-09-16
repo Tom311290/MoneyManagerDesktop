@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ import javafx.stage.Stage;
 import moneyManager.constants.ConstantsClass;
 import moneyManager.dom.Category;
 import moneyManager.dom.Expense;
+import moneyManager.dom.ExpensesData;
 import moneyManager.utils.*;
 
 public class MoneyManagerMainController implements Initializable {
@@ -39,6 +41,8 @@ public class MoneyManagerMainController implements Initializable {
 //-------New entry variables------------------------------------------------
 	@FXML
 	public Button newInputSaveButton;
+	@FXML
+	public Button newInputDeleteButton;
 	@FXML
 	public Button newInputCancelButton;
 	@FXML
@@ -53,60 +57,56 @@ public class MoneyManagerMainController implements Initializable {
 	@FXML
 	public ComboBox<String> categories = new ComboBox<String>();
 	@FXML
-	public DatePicker dateOfExpense;
+	public DatePicker expenseDate;
 	@FXML
 	public TextField newInputCost;
 	
 	@FXML
-	public TableView<Expense> tableNewInput;
+	public TableView<Expense> tableExpenses;
 	@FXML
-	public TableColumn<Expense, String> tableNewInputColumnCost;
+	public TableColumn<Expense, String> tableExpensesColumnCost;
 	@FXML
-	public TableColumn<Expense, String> tableNewInputColumnCategory;
+	public TableColumn<Expense, String> tableExpensesColumnCurrency;
 	@FXML
-	public TableColumn<Expense, String> tableNewInputColumnNote;
+	public TableColumn<Expense, String> tableExpensesColumnCategory;
 	@FXML
-	public TableColumn<Expense, String> tableNewInputColumnDate;
+	public TableColumn<Expense, String> tableExpensesColumnNote;
+	@FXML
+	public TableColumn<Expense, String> tableExpensesColumnDate;
+	@FXML
+	public TableColumn<Expense, String> tableExpensesColumnExpenseDate;
+	@FXML
+	public TableColumn<Expense, String> tableExpensesColumnInputDate;
 
-	ArrayList <Expense> inputList = new ArrayList<Expense>();
-//-------------------------------------------------------------------------------
-	
-//-------Expenses table variables------------------------------------------------
-	
-	@FXML
-	public ComboBox<String> expensesPreviewCurrencies = new ComboBox<String>();	
-	@FXML
-	public ComboBox<String> expensesPreviewCategories = new ComboBox<String>();
-	@FXML
-	public DatePicker expensesPreviewDateOfExpense;
-	@FXML
-	public DatePicker expensesPreviewDateOfInput;
-	
-	@FXML
-	public TableView<Expense> tableExpensesOverview;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesOverviewColumnCategory;	
-	@FXML
-	public TableColumn<Expense, String> tableExpensesOverviewColumnCost;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesOverviewColumnCurrency;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesOverviewColumnExpenseDate;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesOverviewColumnInputDate;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesOverviewColumnNote;
+	public static ArrayList<Expense> listOfExpenses = new ArrayList<Expense>();
 //-------------------------------------------------------------------------------
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		
 
+		System.out.println("----------Initializing table comobo boxes-----------------");
 		initializeComboBox("Currencies", currencies, "Currency");
 		initializeComboBox("Categories", categories, "Category");
-		initializeComboBox("Currencies", expensesPreviewCurrencies, "Currency");
-		initializeComboBox("Categories", expensesPreviewCategories, "Category");
-		initializeTableNewInput();
-		initializeTableExpensesOverview();
+		System.out.println("----------------------------------------------------------");
+
+		System.out.println("\n------------Initializing table columns--------------------");		
+		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
+		
+		columnsInfo.put(tableExpensesColumnCost, 0.15);
+		columnsInfo.put(tableExpensesColumnCurrency, 0.1);
+		columnsInfo.put(tableExpensesColumnCategory, 0.1);
+		columnsInfo.put(tableExpensesColumnNote, 0.4);
+		columnsInfo.put(tableExpensesColumnDate, 0.25);	
+		
+		InitializerUtil.initializeTableColumns(columnsInfo);		
+		System.out.println("----------------------------------------------------------");
+
+		System.out.println("\n---------------Initializing table data------------------");
+		listOfExpenses = DatabaseUtil.fetchExpenses();
+		tableExpenses.getItems().setAll(listOfExpenses);
+		System.out.println("----------------------------------------------------------");
 	}
 
 	
@@ -116,16 +116,17 @@ public class MoneyManagerMainController implements Initializable {
 			
 			if(getMessages().equals("")){
 				 
-				Expense newInput = new Expense(newInputCost.getText(), currencies.getValue(), categories.getValue(), newInputNote.getText(), dateOfExpense.getValue().toString());
-				inputList.add(newInput);
+				Expense newInput = new Expense(newInputCost.getText(), currencies.getValue(), categories.getValue(), newInputNote.getText(), expenseDate.getValue().toString());
+				listOfExpenses.add(newInput);
 				//filling the UI table
-				tableNewInput.getItems().setAll(newInput);				
+				tableExpenses.getItems().setAll(listOfExpenses);				
 				
-				String entryString = newInputCost.getText() +", '" + currencies.getValue() + "', '" + categories.getValue() + "', '" + newInputNote.getText() + "', to_date('" + dateOfExpense.getValue() + "', 'YYYY-MM-dd'), to_date('" + newInput.getInputDate()  + "', 'YYYY-MM-dd')";
+				String entryString = newInputCost.getText() +", '" + currencies.getValue() + "', '" + categories.getValue() + "', '" + newInputNote.getText() + "', to_date('" + expenseDate.getValue() + "', 'YYYY-MM-dd'), to_date('" + newInput.getInputDate()  + "', 'YYYY-MM-dd')";
 				String columns = "MoneySpent, Currency, Category, Note, ExpenseDate, InputDate";
-				DatabaseUtil.insertData("Expenses", columns, entryString);
+				String tableName = "Expenses";
 				
-				initializeTableExpensesOverview();
+				DatabaseUtil.insertData(tableName, columns, entryString);
+				
 			}else{
 				Alert alert = new Alert(AlertType.INFORMATION, getMessages(), ButtonType.OK);
 				alert.showAndWait();
@@ -150,43 +151,21 @@ public class MoneyManagerMainController implements Initializable {
 		openNewWindow("Edit currencies", ConstantsClass.EDIT_CURRENCIES_LAYOUT);		
 		initializeComboBox("Currencies", currencies, "Currency");
     }
-
-	private void initializeTableExpensesOverview(){
-		
-		tableExpensesOverviewColumnCategory.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnCategory.setCellValueFactory(new PropertyValueFactory<Expense, String>("Category"));
-
-		tableExpensesOverviewColumnCost.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnCost.setCellValueFactory(new PropertyValueFactory<Expense, String>("Cost"));
-		
-		tableExpensesOverviewColumnCurrency.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnCurrency.setCellValueFactory(new PropertyValueFactory<Expense, String>("Currency"));
-		
-		tableExpensesOverviewColumnExpenseDate.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnExpenseDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("expenseDate"));
-		
-		tableExpensesOverviewColumnInputDate.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.1));
-		tableExpensesOverviewColumnInputDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("inputDate"));
-		
-		tableExpensesOverviewColumnNote.prefWidthProperty().bind(tableExpensesOverview.widthProperty().multiply(0.4));
-		tableExpensesOverviewColumnNote.setCellValueFactory(new PropertyValueFactory<Expense, String>("Note"));
-		
-		tableExpensesOverview.getItems().setAll(initializeTableOfExpenses());
-	}
 	
-	private ArrayList<Expense> initializeTableOfExpenses(){
+	@FXML
+	public void deleteExpense(){
 		
-		ArrayList<Expense> listOfExpenses = new ArrayList<Expense>();
+		Expense selectedData = (Expense) tableExpenses.getSelectionModel().getSelectedItem();
+		ButtonsUtil.deleteSelectedData(tableExpenses, selectedData);
 		
-		listOfExpenses = DatabaseUtil.fetchExpenses();
+		listOfExpenses.remove(selectedData);
+		tableExpenses.getItems().setAll(listOfExpenses);
 
-		return listOfExpenses;		
 	}
-	
 	private void initializeComboBox(String tableName, ComboBox<String> comboBoxId, String... resourceColumns) {
 		
-		ArrayList<String> currencyList = NewInputViewInitializers.fetchDataForComboBoxes(tableName, "Id", "null", resourceColumns);
-		NewInputViewInitializers.initializeComboBox(comboBoxId, currencyList);
+		ArrayList<String> currencyList = InitializerUtil.fetchDataForComboBoxes(tableName, "Id", "null", resourceColumns);
+		InitializerUtil.initializeComboBox(comboBoxId, currencyList);
 	}
 
 	private void openNewWindow(String windowName, String resource){
@@ -208,42 +187,30 @@ public class MoneyManagerMainController implements Initializable {
 		stage.setScene(scene);
 		stage.showAndWait();
 	}
-	
-	
-	private void initializeTableNewInput(){
-		
-		tableNewInputColumnCost.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.2));
-		tableNewInputColumnCost.setCellValueFactory(new PropertyValueFactory<Expense, String>("Cost"));
-		
-		tableNewInputColumnCategory.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.2));
-		tableNewInputColumnCategory.setCellValueFactory(new PropertyValueFactory<Expense, String>("Category"));
-		
-		tableNewInputColumnNote.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.4));
-		tableNewInputColumnNote.setCellValueFactory(new PropertyValueFactory<Expense, String>("Note"));
-		
-		tableNewInputColumnDate.prefWidthProperty().bind(tableNewInput.widthProperty().multiply(0.2));
-		tableNewInputColumnDate.setCellValueFactory(new PropertyValueFactory<Expense, String>("Date"));
-	}
-	
 
-	
 	private String getMessages(){
 		
 		ArrayList<String> messageList = new ArrayList<String>();
 		String messages = "";
 		
-		if(dateOfExpense.getValue() == null){
+		if(expenseDate.getValue() == null){
 			messageList.add("Please enter day of expense!");
-			dateOfExpense.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
+			expenseDate.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
 		}else{			
-			dateOfExpense.setStyle("");
+			expenseDate.setStyle("");
 		}
 		
-		if(newInputCost.getText().equals("")){
-			messageList.add("Please enter cost of item");
+		if(newInputCost.getText().equals("")){			
+			messageList.add("Please enter cost of item!");
 			newInputCost.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
 		}else{
-			newInputCost.setStyle("");
+			try{
+				new Double(newInputCost.getText());
+				newInputCost.setStyle("");
+			}catch(NumberFormatException nfe){
+				messageList.add("Please enter a valid number as value of item! Please use decimal point \".\"");
+				newInputCost.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
+			}			
 		}
 		
 		if(currencies.getValue().equalsIgnoreCase("n/a")){

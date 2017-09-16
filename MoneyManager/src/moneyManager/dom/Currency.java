@@ -1,12 +1,11 @@
 package moneyManager.dom;
 
-import java.sql.Date;
-
 import javafx.beans.property.SimpleStringProperty;
 
-public class Currency{
+public class Currency extends ExpensesData{
 
-	int id;
+	private int id;
+	private final String tableName = "Currency";
 	private SimpleStringProperty name;
 	private SimpleStringProperty note;
 	
@@ -32,5 +31,9 @@ public class Currency{
 
 	public void setNote(String note) {
 		this.note = new SimpleStringProperty(note);
+	}
+
+	public String getTableName() {
+		return tableName;
 	}
 }

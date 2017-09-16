@@ -1,14 +1,14 @@
 package moneyManager.dom;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javafx.beans.property.SimpleStringProperty;
 
 
-public class Expense{
+public class Expense extends ExpensesData{
 	
 	private int id;
+	private final String tableName = "Expenses";
 	private SimpleStringProperty note;
 	private SimpleStringProperty cost;
 	private SimpleStringProperty currency;
@@ -24,11 +24,11 @@ public class Expense{
 		this.expenseDate = new SimpleStringProperty(expenseDate);
 		this.inputDate = new SimpleStringProperty(LocalDate.now().toString());
 	}
-	
+
 	public Expense(){
 		
 	}
-
+	
 	public String getCost() {
 		return cost.getValue();
 	}
@@ -83,6 +83,19 @@ public class Expense{
 
 	public void setExpenseDate(String date) {
 		this.expenseDate = new SimpleStringProperty(date);
+	}
+
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setName(String category) {
+		// TODO Auto-generated method stub		
+	}
+
+	public String getTableName() {
+		return tableName;
 	}
 
 }
