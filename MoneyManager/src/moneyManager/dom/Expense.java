@@ -13,8 +13,8 @@ public class Expense extends ExpensesData{
 	private SimpleStringProperty cost;
 	private SimpleStringProperty currency;
 	private SimpleStringProperty category;
-	private SimpleStringProperty inputDate;
 	private SimpleStringProperty expenseDate;
+	private SimpleStringProperty inputDate;
 	
 	public Expense(String cost, String currency, String category, String note, String expenseDate){
 		this.cost = new SimpleStringProperty(cost);
@@ -70,19 +70,19 @@ public class Expense extends ExpensesData{
 	}
 
 	public String getInputDate() {
-		return inputDate.getValue().toString();
+		return inputDate.getValue();
 	}
 
-	public void setInputDate(String date) {
-		this.inputDate = new SimpleStringProperty(date);
+	public void setInputDate(String inputDate) {
+		this.inputDate = new SimpleStringProperty(inputDate);
 	}
 	
 	public String getExpenseDate() {
 		return expenseDate.getValue();
 	}
 
-	public void setExpenseDate(String date) {
-		this.expenseDate = new SimpleStringProperty(date);
+	public void setExpenseDate(String expenseDate) {
+		this.expenseDate = new SimpleStringProperty(expenseDate);
 	}
 
 	public String getName() {

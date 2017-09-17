@@ -58,6 +58,7 @@ public class InitializerUtil {
 		return currencyList;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void initializeTableColumns(HashMap<TableColumn, Double> columnsInfo){
 		
 		for (Map.Entry<TableColumn, Double> columnInfo : columnsInfo.entrySet())

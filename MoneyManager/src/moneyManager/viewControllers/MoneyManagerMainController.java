@@ -72,8 +72,6 @@ public class MoneyManagerMainController implements Initializable {
 	@FXML
 	public TableColumn<Expense, String> tableExpensesColumnNote;
 	@FXML
-	public TableColumn<Expense, String> tableExpensesColumnDate;
-	@FXML
 	public TableColumn<Expense, String> tableExpensesColumnExpenseDate;
 	@FXML
 	public TableColumn<Expense, String> tableExpensesColumnInputDate;
@@ -81,6 +79,7 @@ public class MoneyManagerMainController implements Initializable {
 	private static ArrayList<Expense> listOfExpenses = new ArrayList<Expense>();
 //-------------------------------------------------------------------------------
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -98,8 +97,9 @@ public class MoneyManagerMainController implements Initializable {
 		columnsInfo.put(tableExpensesColumnCurrency, 0.1);
 		columnsInfo.put(tableExpensesColumnCategory, 0.1);
 		columnsInfo.put(tableExpensesColumnNote, 0.4);
-		columnsInfo.put(tableExpensesColumnDate, 0.25);	
-		
+		columnsInfo.put(tableExpensesColumnExpenseDate, 0.125);	
+		columnsInfo.put(tableExpensesColumnInputDate, 0.125);	
+
 		InitializerUtil.initializeTableColumns(columnsInfo);		
 		System.out.println("----------------------------------------------------------");
 
