@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import moneyManager.constants.ConstantsClass;
 import moneyManager.dom.Currency;
+import moneyManager.dom.Expense;
 import moneyManager.dom.ExpensesData;
 
 public class ButtonsUtil {

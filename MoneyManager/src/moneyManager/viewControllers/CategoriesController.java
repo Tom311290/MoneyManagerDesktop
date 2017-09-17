@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import moneyManager.constants.ConstantsClass;
 import moneyManager.dom.Category;
 import moneyManager.dom.Currency;
+import moneyManager.utils.ButtonsUtil;
 import moneyManager.utils.DatabaseUtil;
 import moneyManager.utils.InitializerUtil;
 
@@ -57,7 +58,7 @@ public class CategoriesController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		addCategoryButton.setDisable(true);
-		
+		System.out.println("\n---------Initializing table of categories--------------------");
 		System.out.println("\n------------Initializing table columns--------------------");
 		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
 		
@@ -67,7 +68,7 @@ public class CategoriesController implements Initializable{
 		InitializerUtil.initializeTableColumns(columnsInfo);
 		System.out.println("----------------------------------------------------------");
 		
-		System.out.println("\n---------------Initializing table data------------------------");
+		System.out.println("\n---------------Initializing table data----------------------");
 		listOfCategories = DatabaseUtil.fetchCategories();
 		tableCategories.getItems().setAll(listOfCategories);		
 		System.out.println("----------------------------------------------------------");
@@ -89,30 +90,12 @@ public class CategoriesController implements Initializable{
 	
 	@FXML
 	public void deleteCategory(){
-		Category selectedCategory = tableCategories.getSelectionModel().getSelectedItem();
 		
-		if(tableCategories.getSelectionModel().getSelectedItem() == null){
-			Alert alert = new Alert(AlertType.INFORMATION, ConstantsClass.INFO_MESSAGE_NOT_SELECTED_FOR_DELETE, ButtonType.OK);
-			alert.showAndWait();
-			return;
-		}
-
-		Alert alert = new Alert(AlertType.WARNING, ConstantsClass.WARNING_MESSAGE_DELETE_ITEM + "category: " + selectedCategory.getName() + "?", ButtonType.YES, ButtonType.NO);
-		alert.showAndWait();
+		Category selectedData = (Category) tableCategories.getSelectionModel().getSelectedItem();
+		ButtonsUtil.deleteSelectedData(tableCategories, selectedData);
 		
-		if (alert.getResult() == ButtonType.YES){
-		
-			try {
-				DatabaseUtil.deleteData("Categories", "Id", selectedCategory.getId() + "");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-			//fill table with fresh data
-			tableCategories.getItems().setAll(initializeTableCategories());
-		}else{
-			return;
-		}
+		listOfCategories.remove(selectedData);
+		tableCategories.getItems().setAll(listOfCategories);
 	}
 	
 	@FXML

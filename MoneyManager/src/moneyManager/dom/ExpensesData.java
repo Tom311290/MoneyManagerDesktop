@@ -7,6 +7,10 @@ public abstract class ExpensesData {
 	
 	public abstract void setId(int id);
 	
+	public abstract String getCost();
+	
+	public abstract void setCost(String cost);
+	
 	public abstract String getName();
 	
 	public abstract void setName(String category);
@@ -15,5 +19,6 @@ public abstract class ExpensesData {
 	
 	public abstract void setNote(String note);
 	
-	public abstract String getTableName();
+	public abstract String getTableName();	
+
 }

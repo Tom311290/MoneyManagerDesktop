@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class Currency extends ExpensesData{
 
 	private int id;
-	private final String tableName = "Currency";
+	private final String tableName = "Currencies";
 	private SimpleStringProperty name;
 	private SimpleStringProperty note;
 	
@@ -35,5 +35,17 @@ public class Currency extends ExpensesData{
 
 	public String getTableName() {
 		return tableName;
+	}
+
+	@Override
+	public String getCost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCost(String cost) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -69,7 +69,18 @@ public class InitializerUtil {
 			double columnWidthRatio = columnInfo.getValue();
 			
 			tableColumn.prefWidthProperty().bind(table.widthProperty().multiply(columnWidthRatio));
-			tableColumn.setCellValueFactory(new PropertyValueFactory (tableColumn.getText()));
+			
+			String tableColumnTitle = tableColumn.getText();
+			int indexOfWhitespace = tableColumnTitle.indexOf(" ");
+			
+			//deals with problem of getting column name from TableColumn node
+			if(indexOfWhitespace != -1){
+				tableColumnTitle = tableColumnTitle.toLowerCase()
+													.replace(tableColumnTitle.charAt(indexOfWhitespace + 1), tableColumnTitle.toUpperCase().charAt(indexOfWhitespace+1))
+													.replace(" ", "");
+			}
+			
+			tableColumn.setCellValueFactory(new PropertyValueFactory (tableColumnTitle));
 			
 			for(TableColumn childColumn : tableColumn.getColumns()){
 				childColumn.prefWidthProperty().bind(table.widthProperty().multiply(columnWidthRatio/2));

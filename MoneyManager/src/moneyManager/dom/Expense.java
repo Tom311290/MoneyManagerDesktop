@@ -98,4 +98,6 @@ public class Expense extends ExpensesData{
 		return tableName;
 	}
 
+
+
 }

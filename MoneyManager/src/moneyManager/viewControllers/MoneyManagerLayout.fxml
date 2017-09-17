@@ -120,7 +120,7 @@
                                        <children>
                                           <Button fx:id="newInputSaveButton" mnemonicParsing="false" onAction="#saveNewInput" text="Save" textAlignment="CENTER">
                                              <HBox.margin>
-                                                <Insets left="10.0" />
+                                                <Insets left="5.0" />
                                              </HBox.margin>
                                           </Button>
                                           <Button fx:id="newInputDeleteButton" mnemonicParsing="false" onAction="#deleteExpense" text="Delete" textAlignment="CENTER">
@@ -128,7 +128,10 @@
                                                 <Insets left="10.0" right="10.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="newInputCancelButton" layoutX="128.0" layoutY="10.0" mnemonicParsing="false" text="Cancel" textAlignment="CENTER" />
+                                          <Button fx:id="newInputCancelButton" layoutX="128.0" layoutY="10.0" mnemonicParsing="false" text="Cancel" textAlignment="CENTER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin></Button>
                                        </children>
                                     </HBox>
                                     <Label text="Note" GridPane.rowIndex="4" />

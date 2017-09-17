@@ -57,7 +57,7 @@ public class CurrenciesController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		addCurrencyButton.setDisable(true);
-		
+		System.out.println("\n----------Initializing table Currencies-------------------");
 		System.out.println("\n------------Initializing table columns--------------------");
 		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
 		
@@ -67,7 +67,7 @@ public class CurrenciesController implements Initializable{
 		InitializerUtil.initializeTableColumns(columnsInfo);
 		System.out.println("----------------------------------------------------------");
 		
-		System.out.println("\n---------------Initializing table data------------------------");
+		System.out.println("\n---------------Initializing table data----------------------");
 		listOfCurrencies = DatabaseUtil.fetchCurrencies();
 		tableCurrencies.getItems().setAll(listOfCurrencies);		
 		System.out.println("----------------------------------------------------------");
@@ -99,7 +99,10 @@ public class CurrenciesController implements Initializable{
 	public void deleteCurrency(){
 		
 		Currency selectedData = (Currency) tableCurrencies.getSelectionModel().getSelectedItem();
-		ButtonsUtil.deleteSelectedData(tableCurrencies, selectedData);	
+		ButtonsUtil.deleteSelectedData(tableCurrencies, selectedData);
+		
+		listOfCurrencies.remove(selectedData);
+		tableCurrencies.getItems().setAll(listOfCurrencies);
 	}
 
 	@FXML
