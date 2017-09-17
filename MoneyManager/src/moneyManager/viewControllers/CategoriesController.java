@@ -3,6 +3,7 @@ package moneyManager.viewControllers;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.beans.binding.Bindings;
@@ -24,7 +25,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import moneyManager.constants.ConstantsClass;
 import moneyManager.dom.Category;
+import moneyManager.dom.Currency;
 import moneyManager.utils.DatabaseUtil;
+import moneyManager.utils.InitializerUtil;
 
 public class CategoriesController implements Initializable{
 		
@@ -47,20 +50,27 @@ public class CategoriesController implements Initializable{
 	@FXML
 	public TableColumn<Category, String> tableCategoriesColumnNote;
 	
+	private static ArrayList<Category> listOfCategories = new ArrayList<Category>();
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		//it will be enabled if something is written in addCategoryField
-		addCategoryButton.setDisable(true);		
+		addCategoryButton.setDisable(true);
 		
-		tableCategoriesColumnCategory.prefWidthProperty().bind(tableCategories.widthProperty().multiply(0.2));
-		tableCategoriesColumnCategory.setCellValueFactory(new PropertyValueFactory<Category, String>("Name"));
+		System.out.println("\n------------Initializing table columns--------------------");
+		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
 		
-		tableCategoriesColumnNote.prefWidthProperty().bind(tableCategories.widthProperty().multiply(0.8));
-		tableCategoriesColumnNote.setCellValueFactory(new PropertyValueFactory<Category, String>("Note"));
+		columnsInfo.put(tableCategoriesColumnCategory, 0.2);
+		columnsInfo.put(tableCategoriesColumnNote, 0.8);
 		
-		tableCategories.getItems().setAll(initializeTableCategories());
+		InitializerUtil.initializeTableColumns(columnsInfo);
+		System.out.println("----------------------------------------------------------");
+		
+		System.out.println("\n---------------Initializing table data------------------------");
+		listOfCategories = DatabaseUtil.fetchCategories();
+		tableCategories.getItems().setAll(listOfCategories);		
+		System.out.println("----------------------------------------------------------");
 	}
 	
 	@FXML

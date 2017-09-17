@@ -16,7 +16,7 @@
          <children>
             <TableView fx:id="tableCategories" editable="true">
               <columns>
-                <TableColumn fx:id="tableCategoriesColumnCategory" prefWidth="75.0" resizable="false" text="Category" />
+                <TableColumn fx:id="tableCategoriesColumnCategory" prefWidth="75.0" resizable="false" text="Name" />
                   <TableColumn fx:id="tableCategoriesColumnNote" prefWidth="75.0" resizable="false" text="Note" />
               </columns>
             </TableView>

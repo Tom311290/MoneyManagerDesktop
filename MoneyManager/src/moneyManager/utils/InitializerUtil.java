@@ -74,7 +74,6 @@ public class InitializerUtil {
 				childColumn.prefWidthProperty().bind(table.widthProperty().multiply(columnWidthRatio/2));
 				childColumn.setCellValueFactory(new PropertyValueFactory (childColumn.getText()));
 			}
-		}
-		
+		}		
 	}
 }

@@ -78,7 +78,7 @@ public class MoneyManagerMainController implements Initializable {
 	@FXML
 	public TableColumn<Expense, String> tableExpensesColumnInputDate;
 
-	public static ArrayList<Expense> listOfExpenses = new ArrayList<Expense>();
+	private static ArrayList<Expense> listOfExpenses = new ArrayList<Expense>();
 //-------------------------------------------------------------------------------
 	
 	@Override

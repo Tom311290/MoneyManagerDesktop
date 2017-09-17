@@ -44,11 +44,13 @@ public class CurrenciesController implements Initializable{
 	public TextArea addNoteField;
 	
 	@FXML
-	public TableView<ExpensesData> tableCurrencies;
+	public TableView<Currency> tableCurrencies;
 	@FXML
 	public TableColumn<Currency, String> tableCurrenciesColumnCurrency;
 	@FXML
 	public TableColumn<Currency, String> tableCurrenciesColumnNote;
+	
+	private static ArrayList<Currency> listOfCurrencies = new ArrayList<Currency>();
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -66,12 +68,9 @@ public class CurrenciesController implements Initializable{
 		System.out.println("----------------------------------------------------------");
 		
 		System.out.println("\n---------------Initializing table data------------------------");
-
-		//InitializerUtil.initializeTableData();
-		
+		listOfCurrencies = DatabaseUtil.fetchCurrencies();
+		tableCurrencies.getItems().setAll(listOfCurrencies);		
 		System.out.println("----------------------------------------------------------");
-		
-		//tableCurrencies.getItems().setAll(InitializerUtil.fetchTableData(new Currency()));
 	}
 	
 	@FXML

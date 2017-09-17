@@ -139,7 +139,6 @@ public class DatabaseUtil {
 			
 		}catch(SQLException e){
 			e.printStackTrace();
-			
 		}catch(Exception e){
 			e.printStackTrace();
 			
@@ -150,56 +149,6 @@ public class DatabaseUtil {
 		}
 		
 		return fetchedData;
-	}
-	
-	public static ArrayList<Category> fetchCategories(){
-		
-		ArrayList<Category> fetchedCategories = new ArrayList<Category>();
-		
-		try{		
-			Connection conn = null;
-			PreparedStatement ps = null;
-			ResultSet rs = null;			
-			
-			
-			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM Categories WHERE Id IS NOT NULL";
-			//-----------------------------------------------------------------------------------------
-
-			conn = getDBConnection();
-			conn.setAutoCommit(false);
-			ps = conn.prepareStatement(query);
-			
-			/*
-			 * instead of using if -> if it's not a number it is a string
-			 * and it will throw NumberFormatException
-			 */
-			
-			System.out.print(query + "\n");
-			ps.executeQuery();
-			rs = ps.getResultSet();
-			
-			while(rs.next()){				
-				Category category = new Category();				
-				category.setId(rs.getInt("Id"));
-				category.setName(rs.getString("Category"));
-				category.setNote(rs.getString("Note"));
-				
-				fetchedCategories.add(category);				
-			}
-			
-			rs.close();
-			ps.close();
-			conn.close();
-			
-		}catch(SQLException e){
-			e.printStackTrace();
-			
-		}catch(Exception e){
-			e.printStackTrace();				
-		}	
-		
-		return fetchedCategories;
 	}
 	
 	public static ArrayList<ExpensesData> fetchData(ExpensesData expenseObject){
@@ -263,7 +212,7 @@ public class DatabaseUtil {
 		
 		try{
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM expenses WHERE Id IS NOT NULL";
+			String query = "SELECT * FROM expenses";
 			//-----------------------------------------------------------------------------------------
 
 			conn = getDBConnection();
@@ -305,6 +254,106 @@ public class DatabaseUtil {
 		}	
 		
 		return fetchedCurrencies;
+	}
+	
+public static ArrayList<Category> fetchCategories(){
+		
+		ArrayList<Category> fetchedCategories = new ArrayList<Category>();
+		
+		try{		
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;			
+			
+			
+			//QUERY STRING INIT------------------------------------------------------------------------
+			String query = "SELECT * FROM Categories";
+			//-----------------------------------------------------------------------------------------
+
+			conn = getDBConnection();
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement(query);
+			
+			/*
+			 * instead of using if -> if it's not a number it is a string
+			 * and it will throw NumberFormatException
+			 */
+			
+			System.out.print(query + "\n");
+			ps.executeQuery();
+			rs = ps.getResultSet();
+			
+			while(rs.next()){				
+				Category category = new Category();				
+				category.setId(rs.getInt("Id"));
+				category.setName(rs.getString("Category"));
+				category.setNote(rs.getString("Note"));
+				
+				fetchedCategories.add(category);				
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+			
+		}catch(Exception e){
+			e.printStackTrace();				
+		}	
+		
+		return fetchedCategories;
+	}
+
+	public static ArrayList<Currency> fetchCurrencies(){
+		
+		ArrayList<Currency> fetchedCategories = new ArrayList<Currency>();
+		
+		try{		
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;			
+			
+			
+			//QUERY STRING INIT------------------------------------------------------------------------
+			String query = "SELECT * FROM Currencies";
+			//-----------------------------------------------------------------------------------------
+	
+			conn = getDBConnection();
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement(query);
+			
+			/*
+			 * instead of using if -> if it's not a number it is a string
+			 * and it will throw NumberFormatException
+			 */
+			
+			System.out.print(query + "\n");
+			ps.executeQuery();
+			rs = ps.getResultSet();
+			
+			while(rs.next()){				
+				Currency currency = new Currency();				
+				currency.setId(rs.getInt("Id"));
+				currency.setName(rs.getString("Currency"));
+				currency.setNote(rs.getString("Note"));
+				
+				fetchedCategories.add(currency);				
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+			
+		}catch(Exception e){
+			e.printStackTrace();				
+		}	
+		
+		return fetchedCategories;
 	}
 	
 	public static void deleteData(String tableName, String columnName, String searchValue) throws SQLException{

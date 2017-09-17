@@ -16,7 +16,7 @@
          <children>
             <TableView fx:id="tableCurrencies" editable="true">
               <columns>
-                <TableColumn fx:id="tableCurrenciesColumnCurrency" prefWidth="75.0" resizable="false" text="Currency" />
+                <TableColumn fx:id="tableCurrenciesColumnCurrency" prefWidth="75.0" resizable="false" text="Name" />
                   <TableColumn fx:id="tableCurrenciesColumnNote" prefWidth="75.0" resizable="false" text="Note" />
               </columns>
             </TableView>
