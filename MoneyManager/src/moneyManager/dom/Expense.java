@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import javafx.beans.property.SimpleStringProperty;
 
 
-public class Expense extends ExpensesData{
+public class Expense extends ExpensesData{	
 	
-	private int id;
 	private final String tableName = "Expenses";
+	private SimpleStringProperty id;
 	private SimpleStringProperty note;
 	private SimpleStringProperty cost;
 	private SimpleStringProperty currency;
@@ -27,6 +27,29 @@ public class Expense extends ExpensesData{
 
 	public Expense(){
 		
+	}
+	
+	public String toString(){
+		
+		String data = "--------------------------------\n";
+		data += "ID: " + getId() + "\n";
+		data += "Note: " + getNote() + "\n";		
+		data += "Cost: " + getCost() + "\n";
+		data += "Currency: " + getCurrency() + "\n";
+		data += "Category: " + getCategory() + "\n";
+		data += "Expense date: " + getExpenseDate() + "\n";
+		data += "Input date: " + getInputDate() + "\n";
+		data += "--------------------------------\n";
+		
+		return data;
+	}
+	
+	public String getId() {
+		return id.getValue();
+	}
+	
+	public void setId(String id) {
+		this.id = new SimpleStringProperty(id);
 	}
 	
 	public String getCost() {
@@ -51,14 +74,6 @@ public class Expense extends ExpensesData{
 	
 	public void setCategory(String category) {
 		this.category = new SimpleStringProperty(category);
-	}
-
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getNote() {

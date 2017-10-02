@@ -4,17 +4,17 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Category extends ExpensesData{
 
-	private int id;
 	private final String tableName = "Categories";
+	private SimpleStringProperty id;
 	private SimpleStringProperty name;
 	private SimpleStringProperty note;
 	
-	public int getId() {
-		return id;
+	public String getId() {
+		return id.getValue();
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setId(String id) {
+		this.id = new SimpleStringProperty(id);
 	}
 	
 	public String getName() {

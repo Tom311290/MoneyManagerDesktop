@@ -3,9 +3,9 @@ package moneyManager.dom;
 
 public abstract class ExpensesData {
 	
-	public abstract int getId();
+	public abstract String getId();
 	
-	public abstract void setId(int id);
+	public abstract void setId(String id);
 	
 	public abstract String getCost();
 	

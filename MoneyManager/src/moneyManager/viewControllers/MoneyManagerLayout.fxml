@@ -61,20 +61,41 @@
                                     <ColumnConstraints percentWidth="60.0" />
                                 </columnConstraints>                               
                                  <children>
-                                    <DatePicker fx:id="expenseDate" editable="false" prefHeight="25.0" prefWidth="115.0" promptText="Date of expense" GridPane.columnIndex="1">
+                                    <Label text="Date">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin></Label>
+                                    <Label text="Cost" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin></Label>
+                                    <Label text="Currency" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin></Label>
+                                    <Label text="Category" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin></Label>
+                                    <Label text="Note" GridPane.rowIndex="4">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin></Label>
+                                    
+                                    <HBox GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
-                                    </DatePicker>
-                                    <Label text="Date" />
-                                    <Label text="Cost" GridPane.rowIndex="1" />
-                                    <Label text="Currency" GridPane.rowIndex="2" />
+                                       <children>
+                                          <DatePicker fx:id="expenseDate" editable="false" prefHeight="25.0" prefWidth="115.0" promptText="Date of expense" />
+                                       </children>
+                                    </HBox>
                                     <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                        <children>
-                                          <ComboBox fx:id="currencies" prefHeight="21.0" prefWidth="65.0">
+                                          <ComboBox fx:id="newInputCurrencies" prefHeight="21.0" prefWidth="65.0">
                                              <cursor>
                                                 <Cursor fx:constant="DEFAULT" />
                                              </cursor>
@@ -98,26 +119,30 @@
                                           </TextField>
                                        </children>
                                     </HBox>
-                                    <Label layoutX="10.0" layoutY="90.0" text="Category" GridPane.rowIndex="3" />
                                     <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                        <GridPane.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </GridPane.margin>
                                        <children>
-                                          <ComboBox fx:id="categories" prefHeight="25.0" prefWidth="120.0">
+                                          <ComboBox fx:id="newInputCategories" prefHeight="25.0" prefWidth="120.0">
                                              <HBox.margin>
                                                 <Insets right="5.0" />
                                              </HBox.margin>
                                           </ComboBox>
-                                          <Button fx:id="newInputEditCategores" mnemonicParsing="false" onAction="#openEditCategoriesWindow" text="+">
+                                          <Button fx:id="newInputEditCategoriesButton" mnemonicParsing="false" onAction="#openEditCategoriesWindow" text="+">
                                              <HBox.margin>
                                                 <Insets left="5.0" />
                                              </HBox.margin>
                                           </Button>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                    <HBox alignment="CENTER_RIGHT" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
                                        <children>
+                                          <Button fx:id="newInputUpdateButton" layoutX="16.0" layoutY="10.0" mnemonicParsing="false" onAction="#updateExpense" text="Update" textAlignment="CENTER">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </Button>
                                           <Button fx:id="newInputSaveButton" mnemonicParsing="false" onAction="#saveNewInput" text="Save" textAlignment="CENTER">
                                              <HBox.margin>
                                                 <Insets left="5.0" />
@@ -128,13 +153,12 @@
                                                 <Insets left="10.0" right="10.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="newInputCancelButton" layoutX="128.0" layoutY="10.0" mnemonicParsing="false" text="Cancel" textAlignment="CENTER">
+                                          <Button fx:id="newInputCancelButton" layoutX="128.0" layoutY="10.0" mnemonicParsing="false" onAction="#clear" text="Cancel" textAlignment="CENTER">
                                              <HBox.margin>
                                                 <Insets right="10.0" />
                                              </HBox.margin></Button>
                                        </children>
                                     </HBox>
-                                    <Label text="Note" GridPane.rowIndex="4" />
                                     <HBox GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2">
                                        <children>
                                           <TextArea fx:id="newInputNote" prefHeight="100.0">

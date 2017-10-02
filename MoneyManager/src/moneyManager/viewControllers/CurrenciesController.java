@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -34,9 +35,11 @@ public class CurrenciesController implements Initializable{
 	@FXML
 	public Button addCurrencyButton;
 	@FXML
+	public Button updateCurrencyButton;
+	@FXML
 	public Button deleteCurrencyButton;
 	@FXML
-	public Button closeCurrencyButton;
+	public Button cancelCurrencyButton;
 	
 	@FXML
 	public TextField addCurrencyField;
@@ -49,14 +52,16 @@ public class CurrenciesController implements Initializable{
 	public TableColumn<Currency, String> tableCurrenciesColumnCurrency;
 	@FXML
 	public TableColumn<Currency, String> tableCurrenciesColumnNote;
-	
-	private static ArrayList<Currency> listOfCurrencies = new ArrayList<Currency>();
+		
+	private String currencyId;
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		addCurrencyButton.setDisable(true);
+		updateCurrencyButton.setDisable(true);
+		
 		System.out.println("\n----------Initializing table Currencies-------------------");
 		System.out.println("\n------------Initializing table columns--------------------");
 		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
@@ -68,31 +73,24 @@ public class CurrenciesController implements Initializable{
 		System.out.println("----------------------------------------------------------");
 		
 		System.out.println("\n---------------Initializing table data----------------------");
-		listOfCurrencies = DatabaseUtil.fetchCurrencies();
-		tableCurrencies.getItems().setAll(listOfCurrencies);		
+		initializeTableCurrencies();
+		enableDoubleClickAction();
 		System.out.println("----------------------------------------------------------");
+
 	}
 	
 	@FXML
 	public void addCurrency(){		
 		
-		try {
-			if(addCurrencyField.getText().equals("")){
-				Alert alert = new Alert(AlertType.INFORMATION, "Please enter currency", ButtonType.OK);
-				addCurrencyField.setStyle(ConstantsClass.STYLE_WRONG_INPUT);
-				alert.showAndWait();
-				return;
-			}else{
-				DatabaseUtil.insertData("Currencies", "Currency, Note", "'" + addCurrencyField.getText() + "', '" + addNoteField.getText() + "'");
-				addCurrencyField.setStyle("");
-			}
+		try {			
+			DatabaseUtil.insertData("Currencies", "Currency, Note", "'" + addCurrencyField.getText() + "', '" + addNoteField.getText() + "'");			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	
 		//fill table with fresh data
-		//tableCurrencies.getItems().setAll(initializeTableCurrencies());
+		initializeTableCurrencies();
 	}
 	
 	@FXML
@@ -100,11 +98,35 @@ public class CurrenciesController implements Initializable{
 		
 		Currency selectedData = (Currency) tableCurrencies.getSelectionModel().getSelectedItem();
 		ButtonsUtil.deleteSelectedData(tableCurrencies, selectedData);
-		
-		listOfCurrencies.remove(selectedData);
-		tableCurrencies.getItems().setAll(listOfCurrencies);
+
+		initializeTableCurrencies();
 	}
 
+	@FXML
+	public void updateCurrency(){
+		
+		//update data in table
+		String columnsAndValues = "Currency = '" + addCurrencyField.getText() + "', "
+								+ "Note = '" + addNoteField.getText() + "'";										
+		
+		try {
+			DatabaseUtil.updateData((new Currency().getTableName()), "Id", currencyId, columnsAndValues);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		initializeTableCurrencies();
+	}
+	@FXML
+	public void clear(){
+
+		currencyId = "";
+		addCurrencyField.setText("");		            
+    	addNoteField.setText("");
+    	
+    	addCurrencyButton.setDisable(true);
+    	updateCurrencyButton.setDisable(true);
+	}
 	@FXML
 	public void checkInput(){
 		
@@ -115,8 +137,34 @@ public class CurrenciesController implements Initializable{
 		}
 	}
 	
-	public void closeWindow(){
-	    Stage stage = (Stage) closeCurrencyButton.getScene().getWindow();
-	    stage.close();
+	private ArrayList<Currency> initializeTableCurrencies(){
+		
+		ArrayList<Currency> currencyList= new ArrayList<Currency>();		
+		currencyList = DatabaseUtil.fetchCurrencies();
+		
+		tableCurrencies.getItems().setAll(currencyList);
+
+		return currencyList;		
+	}
+	
+	private void enableDoubleClickAction(){		
+		
+		tableCurrencies.setRowFactory( tableView -> {
+			
+		    TableRow<Currency> row = new TableRow<>();		    
+		    row.setOnMouseClicked(event -> {
+		        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+		        	
+		        	addCurrencyButton.setDisable(true);
+		        	updateCurrencyButton.setDisable(false);
+		        	
+		        	Currency rowData = row.getItem();
+		        	currencyId = rowData.getId();
+		            addCurrencyField.setText(rowData.getName());		            
+		        	addNoteField.setText(rowData.getNote());
+		        }
+		    });
+		    return row ;
+		 });
 	}
 }

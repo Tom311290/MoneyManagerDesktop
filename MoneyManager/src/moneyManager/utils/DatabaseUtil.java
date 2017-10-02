@@ -179,7 +179,7 @@ public class DatabaseUtil {
 			rs = ps.getResultSet();
 			
 			while(rs.next()){								
-				expenseObject.setId(rs.getInt("Id"));
+				expenseObject.setId(rs.getInt("Id") + "");
 				expenseObject.setName(rs.getString("Currency"));
 				expenseObject.setNote(rs.getString("Note"));
 				
@@ -230,7 +230,7 @@ public class DatabaseUtil {
 			
 			while(rs.next()){				
 				Expense expense = new Expense();				
-				expense.setId(rs.getInt("Id"));
+				expense.setId(rs.getInt("Id") + "");
 				expense.setCost((rs.getString("MoneySpent")));
 				expense.setCurrency(rs.getString("Currency"));
 				expense.setCategory(rs.getString("Category"));
@@ -285,7 +285,7 @@ public static ArrayList<Category> fetchCategories(){
 			
 			while(rs.next()){				
 				Category category = new Category();				
-				category.setId(rs.getInt("Id"));
+				category.setId(rs.getInt("Id") + "");
 				category.setName(rs.getString("Category"));
 				category.setNote(rs.getString("Note"));
 				
@@ -335,7 +335,7 @@ public static ArrayList<Category> fetchCategories(){
 			
 			while(rs.next()){				
 				Currency currency = new Currency();				
-				currency.setId(rs.getInt("Id"));
+				currency.setId(rs.getInt("Id") + "");
 				currency.setName(rs.getString("Currency"));
 				currency.setNote(rs.getString("Note"));
 				
@@ -397,11 +397,13 @@ public static ArrayList<Category> fetchCategories(){
 		}
 	}
 	
-	public static void updateData(String tableName, String searchInColumnName, String searchValue) throws SQLException{
+	public static void updateData(String tableName, String searchInColumnName, String searchValue, String columnsAndValues) throws SQLException{
 		
 		//QUERY STRING INIT------------------------------------------------------------------------
-		String query = "UPDATE \"" + tableName + "\" SET  WHERE \""+ searchInColumnName +"\" = ?";
+		String query = "UPDATE " + tableName + " SET " + columnsAndValues + " WHERE " + searchInColumnName + " = ?";
 		//-----------------------------------------------------------------------------------------
+		
+		
 		
 		Connection conn = null;
 		PreparedStatement ps = null;

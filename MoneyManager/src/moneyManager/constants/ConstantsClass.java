@@ -13,7 +13,7 @@ public class ConstantsClass {
 	static public final String MONEY_MANAGER_LAYOUT = "MoneyManagerLayout.fxml";
 	static public final String EDIT_CATEGORIES_LAYOUT = "CategoriesLayout.fxml";
 	static public final String EDIT_CURRENCIES_LAYOUT = "CurrenciesLayout.fxml";
-	
+	static public final String EDIT_ROW_DATA = "RowDataLayout.fxml";
 	//css files
 	static public final String APP_CSS = "application.css";
 	

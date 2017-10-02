@@ -49,6 +49,14 @@
                               <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Button>
+                        <Button fx:id="updateCategoryButton" alignment="BOTTOM_RIGHT" layoutX="461.0" layoutY="15.0" mnemonicParsing="false" onAction="#updateCategory" text="Update">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
                         <Button fx:id="deleteCategoryButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#deleteCategory" text="Delete" HBox.hgrow="ALWAYS">
                            <opaqueInsets>
                               <Insets />
@@ -57,7 +65,7 @@
                               <Insets bottom="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="closeCategoryButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#closeWindow" text="Close" HBox.hgrow="ALWAYS">
+                        <Button fx:id="cancelCategoryButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#clear" text="Cancel" HBox.hgrow="ALWAYS">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>

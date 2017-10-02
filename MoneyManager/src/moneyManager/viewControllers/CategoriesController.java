@@ -2,6 +2,8 @@ package moneyManager.viewControllers;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -16,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -26,18 +29,21 @@ import javafx.stage.Stage;
 import moneyManager.constants.ConstantsClass;
 import moneyManager.dom.Category;
 import moneyManager.dom.Currency;
+import moneyManager.dom.Expense;
 import moneyManager.utils.ButtonsUtil;
 import moneyManager.utils.DatabaseUtil;
 import moneyManager.utils.InitializerUtil;
 
 public class CategoriesController implements Initializable{
-		
+	
+	@FXML
+	public Button updateCategoryButton;
 	@FXML
 	public Button addCategoryButton;
 	@FXML
 	public Button deleteCategoryButton;
 	@FXML
-    public Button closeCategoryButton;
+    public Button cancelCategoryButton;
 	
 	@FXML
 	public TextField addCategoryField;
@@ -51,13 +57,15 @@ public class CategoriesController implements Initializable{
 	@FXML
 	public TableColumn<Category, String> tableCategoriesColumnNote;
 	
-	private static ArrayList<Category> listOfCategories = new ArrayList<Category>();
+	private String categoryId;
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		addCategoryButton.setDisable(true);
+		updateCategoryButton.setDisable(true);
+		
 		System.out.println("\n---------Initializing table of categories--------------------");
 		System.out.println("\n------------Initializing table columns--------------------");
 		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
@@ -69,9 +77,10 @@ public class CategoriesController implements Initializable{
 		System.out.println("----------------------------------------------------------");
 		
 		System.out.println("\n---------------Initializing table data----------------------");
-		listOfCategories = DatabaseUtil.fetchCategories();
-		tableCategories.getItems().setAll(listOfCategories);		
+		initializeTableCategories();		
 		System.out.println("----------------------------------------------------------");
+		
+		enableDoubleClickAction();
 	}
 	
 	@FXML
@@ -85,7 +94,7 @@ public class CategoriesController implements Initializable{
 		}	
 	
 		//fill table with fresh data
-		tableCategories.getItems().setAll(initializeTableCategories());
+		initializeTableCategories();
 	}
 	
 	@FXML
@@ -94,15 +103,34 @@ public class CategoriesController implements Initializable{
 		Category selectedData = (Category) tableCategories.getSelectionModel().getSelectedItem();
 		ButtonsUtil.deleteSelectedData(tableCategories, selectedData);
 		
-		listOfCategories.remove(selectedData);
-		tableCategories.getItems().setAll(listOfCategories);
+		clear();
+		initializeTableCategories();
 	}
 	
 	@FXML
-	public void closeWindow(){
+	public void updateCategory(){
+		
+		//update data in table
+				String columnsAndValues = "Category = '" + addCategoryField.getText() + "', "
+										+ "Note = '" + addNoteField.getText() + "'";										
+				
+				try {
+					DatabaseUtil.updateData((new Category().getTableName()), "Id", categoryId, columnsAndValues);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				initializeTableCategories();
+	}
+	@FXML
+	public void clear(){
 
-		Stage stage = (Stage) closeCategoryButton.getScene().getWindow();
-	    stage.close();
+		categoryId = "";
+        addCategoryField.setText("");		            
+    	addNoteField.setText("");
+    	
+    	addCategoryButton.setDisable(true);
+    	updateCategoryButton.setDisable(true);
 	}
 	
 	@FXML
@@ -115,11 +143,34 @@ public class CategoriesController implements Initializable{
 		}
 	}
 	
-	private ArrayList<Category> initializeTableCategories (){
+	private void initializeTableCategories(){
 		
 		ArrayList<Category> categoryList = new ArrayList<Category>();		
 		categoryList = DatabaseUtil.fetchCategories();
 
-		return categoryList;		
+		tableCategories.getItems().setAll(categoryList);
+	}
+	
+	private void enableDoubleClickAction(){		
+		
+		tableCategories.setRowFactory( tableView -> {
+			
+		    TableRow<Category> row = new TableRow<>();		    
+		    row.setOnMouseClicked(event -> {
+		        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+		        	
+		        	addCategoryButton.setDisable(true);
+		        	updateCategoryButton.setDisable(false);
+		        	
+		        	Category rowData = row.getItem();
+		        	categoryId = rowData.getId();
+		            addCategoryField.setText(rowData.getName());		            
+		        	addNoteField.setText(rowData.getNote());
+		        }
+		    });
+		    
+		    System.out.println("Enable double click action: ON");
+		    return row ;
+		 });
 	}
 }
