@@ -14,14 +14,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import moneyManager.constants.ConstantsClass;
+import moneyManager.constants.AppConstants;
 import moneyManager.dom.*;
 
 public class DatabaseUtil {
 
-	private static String jdbc = ConstantsClass.JDBC_URL + ConstantsClass.DATABASE_NAME;
-	private static String databaseUserName = ConstantsClass.DATABASE_USER_NAME;
-	private static String databaseUserPass = ConstantsClass.DATABASE_USER_PASSWORD;
+	private static String jdbc = AppConstants.JDBC_URL + AppConstants.DATABASE_NAME;
+	private static String databaseUserName = AppConstants.DATABASE_USER_NAME;
+	private static String databaseUserPass = AppConstants.DATABASE_USER_PASSWORD;
 	
 	public static Connection getDBConnection(){
      
@@ -29,7 +29,7 @@ public class DatabaseUtil {
 		
 		try {
 			
-			Class.forName(ConstantsClass.H2_DRIVER);
+			Class.forName(AppConstants.H2_DRIVER);
 			conn = DriverManager.getConnection(jdbc, databaseUserName, databaseUserPass);
 			
 		} catch (ClassNotFoundException e) {
@@ -60,8 +60,9 @@ public class DatabaseUtil {
 				
 				conn = getDBConnection();
 				ps = conn.prepareStatement(query);
-				System.out.println(query);
-				ps.executeUpdate();
+				ps.executeUpdate();				
+
+				if(AppConstants.LOG_SQL) System.out.println(query);
 				
 			}catch(SQLException e){
 				e.printStackTrace();
@@ -99,7 +100,7 @@ public class DatabaseUtil {
 		
 		try{
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM " + tableName + " WHERE "+ searchInColumnName +" = ? OR ? IS NULL";
+			String query = "SELECT * FROM " + tableName + " WHERE "+ searchInColumnName +" = ? OR ? IS NULL AND Hidden = false";
 			//-----------------------------------------------------------------------------------------
 
 			conn = getDBConnection();
@@ -126,7 +127,7 @@ public class DatabaseUtil {
 				}
 			}
 			
-			System.out.print(query.replace("?", searchValue) + "\n");
+			if(AppConstants.LOG_SQL) System.out.print(query.replace("?", searchValue) + "\n");
 
 			ps.executeQuery();
 			rs = ps.getResultSet();
@@ -162,7 +163,7 @@ public class DatabaseUtil {
 		
 		try{
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM " + expenseObject.getTableName() + " WHERE Id IS NOT NULL";
+			String query = "SELECT * FROM " + expenseObject.getTableName() + " WHERE Id IS NOT NULL AND Hidden = false";
 			//-----------------------------------------------------------------------------------------
 
 			conn = getDBConnection();
@@ -174,7 +175,7 @@ public class DatabaseUtil {
 			 * and it will throw NumberFormatException
 			 */
 			
-			System.out.print(query + "\n");
+			if(AppConstants.LOG_SQL) System.out.print(query + "\n");
 			ps.executeQuery();
 			rs = ps.getResultSet();
 			
@@ -203,16 +204,32 @@ public class DatabaseUtil {
 	
 	public static ArrayList<Expense> fetchExpenses(){
 		
-		ArrayList<Expense> fetchedCurrencies = new ArrayList<Expense>();
+		ArrayList<Expense> fetchedExpenses = new ArrayList<Expense>();
 		
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;			
+		String query = null;
 		
 		try{
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM expenses";
+			query = "SELECT " +
+					"Expenses.Id, " +
+					"Expenses.MoneySpent, " +
+					"cur.Currency, " +
+					"cur.Id, " +
+					"cat.Category, " +
+					"cat.Id, " +
+					"Expenses.Note, " +
+					"Expenses.ExpenseDate, " +
+					"Expenses.InputDate " +
+				"FROM Expenses " +
+				"LEFT JOIN Currencies cur ON " +
+					"cur.Id = Expenses.CurrencyId " +
+				"LEFT JOIN Categories cat ON " +
+					"cat.Id = Expenses.CategoryId " +
+					"WHERE Expenses.Hidden = FALSE";
 			//-----------------------------------------------------------------------------------------
 
 			conn = getDBConnection();
@@ -224,39 +241,45 @@ public class DatabaseUtil {
 			 * and it will throw NumberFormatException
 			 */
 			
-			System.out.print(query + "\n");
+			if(AppConstants.LOG_SQL) System.out.print(query + "\n");
 			ps.executeQuery();
 			rs = ps.getResultSet();
 			
-			while(rs.next()){				
+			while(rs.next()){
+				int i=1;
 				Expense expense = new Expense();				
-				expense.setId(rs.getInt("Id") + "");
-				expense.setCost((rs.getString("MoneySpent")));
-				expense.setCurrency(rs.getString("Currency"));
-				expense.setCategory(rs.getString("Category"));
+				expense.setId(rs.getInt(i++) + "");
+				expense.setCost((rs.getString(i++)));
+				expense.setCurrency(rs.getString(i++));
+				expense.setCurrencyID(rs.getInt(i++));
+				expense.setCategory(rs.getString(i++));
+				expense.setCategoryID(rs.getInt(i++));
 				expense.setNote(rs.getString("Note"));
 				expense.setExpenseDate(rs.getString("ExpenseDate").toString());
 				expense.setInputDate(rs.getString("InputDate").toString());
 				
-				fetchedCurrencies.add(expense);				
+				fetchedExpenses.add(expense);				
 			}
 		
 			rs.close();
 			ps.close();
 			conn.close();
 			
-		}catch(SQLException e){
+		}catch(SQLException e){			
+			System.out.println("Problem with query: " + e.getMessage());
 			e.printStackTrace();
+			System.exit(0);
 			
 		}catch(Exception e){
+			System.out.println("Ups! Something went wrong with database! Closing application!");
 			e.printStackTrace();
-			
+			System.exit(0);			
 		}	
 		
-		return fetchedCurrencies;
+		return fetchedExpenses;
 	}
 	
-public static ArrayList<Category> fetchCategories(){
+	public static ArrayList<Category> fetchCategories(){
 		
 		ArrayList<Category> fetchedCategories = new ArrayList<Category>();
 		
@@ -267,7 +290,7 @@ public static ArrayList<Category> fetchCategories(){
 			
 			
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM Categories";
+			String query = "SELECT * FROM Categories where Hidden = false";
 			//-----------------------------------------------------------------------------------------
 
 			conn = getDBConnection();
@@ -279,11 +302,11 @@ public static ArrayList<Category> fetchCategories(){
 			 * and it will throw NumberFormatException
 			 */
 			
-			System.out.print(query + "\n");
+			if(AppConstants.LOG_SQL) System.out.print(query + "\n");
 			ps.executeQuery();
 			rs = ps.getResultSet();
 			
-			while(rs.next()){				
+			while(rs.next()){
 				Category category = new Category();				
 				category.setId(rs.getInt("Id") + "");
 				category.setName(rs.getString("Category"));
@@ -317,7 +340,7 @@ public static ArrayList<Category> fetchCategories(){
 			
 			
 			//QUERY STRING INIT------------------------------------------------------------------------
-			String query = "SELECT * FROM Currencies";
+			String query = "SELECT * FROM Currencies where Hidden = false";
 			//-----------------------------------------------------------------------------------------
 	
 			conn = getDBConnection();
@@ -329,7 +352,7 @@ public static ArrayList<Category> fetchCategories(){
 			 * and it will throw NumberFormatException
 			 */
 			
-			System.out.print(query + "\n");
+			if(AppConstants.LOG_SQL) System.out.print(query + "\n");
 			ps.executeQuery();
 			rs = ps.getResultSet();
 			
@@ -356,7 +379,7 @@ public static ArrayList<Category> fetchCategories(){
 		return fetchedCategories;
 	}
 	
-	public static void deleteData(String tableName, String columnName, String searchValue) throws SQLException{
+/*	public static void deleteData(String tableName, String columnName, String searchValue) throws SQLException{
 				
 		//QUERY STRING INIT------------------------------------------------------------------------
 		String query = "DELETE FROM " + tableName + " WHERE "+ columnName + " = ?";
@@ -369,10 +392,10 @@ public static ArrayList<Category> fetchCategories(){
 			conn = getDBConnection();
 			ps = conn.prepareStatement(query);
 			
-			/*
+			
 			 * instead of using if -> if it's not a number it is a string
 			 * and it will throw NumberFormatException
-			 */
+			 
 			try{				
 				int value = Integer.parseInt(searchValue);
 				ps.setInt(1, value);
@@ -382,7 +405,7 @@ public static ArrayList<Category> fetchCategories(){
 				ps.setString(1, searchValue);				
 			}
 			
-			System.out.println(query.replace("?", searchValue));
+			if(AppConstants.LOG_SQL) System.out.println(query.replace("?", searchValue));
 			ps.executeUpdate();
 			
 		}catch(SQLException e){
@@ -395,15 +418,13 @@ public static ArrayList<Category> fetchCategories(){
 			ps.close();
 			conn.close();
 		}
-	}
+	}*/
 	
-	public static void updateData(String tableName, String searchInColumnName, String searchValue, String columnsAndValues) throws SQLException{
+	public static void updateData(String tableName, String whereColumn, String whereValue, String columnsAndValues) throws SQLException{
 		
 		//QUERY STRING INIT------------------------------------------------------------------------
-		String query = "UPDATE " + tableName + " SET " + columnsAndValues + " WHERE " + searchInColumnName + " = ?";
+		String query = "UPDATE " + tableName + " SET " + columnsAndValues + " WHERE " + whereColumn + " = ?";
 		//-----------------------------------------------------------------------------------------
-		
-		
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -417,16 +438,16 @@ public static ArrayList<Category> fetchCategories(){
 			 * and it will throw NumberFormatException
 			 */
 			try{				
-				int value = Integer.parseInt(searchValue);
+				int value = Integer.parseInt(whereValue);
 				ps.setInt(1, value);
 				
 			}catch(NumberFormatException e){
-				searchValue = "'" + searchValue + "'";
-				ps.setString(1, searchValue);
+				whereValue = "'" + whereValue + "'";
+				ps.setString(1, whereValue);
 				
 			}
 			
-			System.out.println(query);
+			if(AppConstants.LOG_SQL) System.out.println(query);
 			ps.executeUpdate();
 			
 		}catch(SQLException e){

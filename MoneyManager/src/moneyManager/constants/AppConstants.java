@@ -1,6 +1,6 @@
 package moneyManager.constants;
 
-public class ConstantsClass {
+public class AppConstants {
 
 	//database
 	static public final String H2_DRIVER = "org.h2.Driver";
@@ -9,11 +9,14 @@ public class ConstantsClass {
 	static public final String DATABASE_USER_NAME = "admin";
 	static public final String DATABASE_USER_PASSWORD = "admin";
 	
+	static public final boolean LOG_SQL = false;
 	//fxml files	
 	static public final String MONEY_MANAGER_LAYOUT = "MoneyManagerLayout.fxml";
 	static public final String EDIT_CATEGORIES_LAYOUT = "CategoriesLayout.fxml";
 	static public final String EDIT_CURRENCIES_LAYOUT = "CurrenciesLayout.fxml";
-	static public final String EDIT_ROW_DATA = "RowDataLayout.fxml";
+	static public final String EDIT_EXPENSE = "EditExpense.fxml";
+	static public final String NEW_EXPENSE = "NewExpense.fxml";
+
 	//css files
 	static public final String APP_CSS = "application.css";
 	

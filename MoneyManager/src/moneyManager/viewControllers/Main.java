@@ -2,7 +2,7 @@ package moneyManager.viewControllers;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
-import moneyManager.constants.ConstantsClass;
+import moneyManager.constants.AppConstants;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -19,7 +19,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			
-			Parent root = FXMLLoader.load(getClass().getResource(ConstantsClass.MONEY_MANAGER_LAYOUT));
+			Parent root = FXMLLoader.load(getClass().getResource(AppConstants.MONEY_MANAGER_LAYOUT));
 			Scene scene = new Scene(root, 1200, 800);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Money manager");

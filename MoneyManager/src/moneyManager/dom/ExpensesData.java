@@ -19,6 +19,6 @@ public abstract class ExpensesData {
 	
 	public abstract void setNote(String note);
 	
-	public abstract String getTableName();	
+	public abstract String getTableName();
 
 }

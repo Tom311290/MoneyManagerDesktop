@@ -10,6 +10,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
+import moneyManager.dom.Category;
+import moneyManager.dom.Currency;
 import moneyManager.dom.Expense;
 import moneyManager.dom.ExpensesData;
 import moneyManager.utils.DatabaseUtil;
@@ -41,15 +44,54 @@ public class InitializerUtil {
 		return list;
 	}
 	
-	public static void initializeComboBox(ComboBox<String> comboBox, ArrayList<String> list){
+	public static void initializeCurrencyComboBox(ComboBox<Currency> comboBox, ArrayList<Currency> list){
 		
 		comboBox.getItems().clear();
 		comboBox.getItems().addAll(list);
+		comboBox.setConverter(new StringConverter<Currency>(){
+
+			@Override
+			public String toString(Currency object) {				
+				return object.getName();
+			}
+
+			@Override
+			public Currency fromString(String string) {
+				return comboBox.getItems().stream().filter(ap -> ap.getName().equals(string)).findFirst().orElse(null);
+			}
+			
+		});
 		
 		comboBox.disableProperty().bind(Bindings.isEmpty(comboBox.getItems()));
-		comboBox.getSelectionModel().select(list.size() != 0 ? list.get(0) : "N/A" );
-		
+		comboBox.getSelectionModel().select(list.get(0));
+		comboBox.getSelectionModel().getSelectedItem();
+
 	}
+	
+	public static void initializeCategoryComboBox(ComboBox<Category> comboBox, ArrayList<Category> list){
+		
+		comboBox.getItems().clear();
+		comboBox.getItems().addAll(list);
+		comboBox.setConverter(new StringConverter<Category>(){
+
+			@Override
+			public String toString(Category object) {				
+				return object.getName();
+			}
+
+			@Override
+			public Category fromString(String string) {
+				return comboBox.getItems().stream().filter(ap -> ap.getName().equals(string)).findFirst().orElse(null);
+			}
+			
+		});
+		
+		comboBox.disableProperty().bind(Bindings.isEmpty(comboBox.getItems()));
+		comboBox.getSelectionModel().select(list.get(0));
+		comboBox.getSelectionModel().getSelectedItem();
+
+	}
+
 	
 	public static ArrayList<ExpensesData> initializeTableData(ExpensesData expenseObject){
 		ArrayList<ExpensesData> currencyList = new ArrayList<ExpensesData>();		

@@ -26,10 +26,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import moneyManager.constants.ConstantsClass;
+import moneyManager.constants.AppConstants;
 import moneyManager.dom.Category;
 import moneyManager.dom.Currency;
 import moneyManager.dom.Expense;
+import moneyManager.dom.ExpensesData;
 import moneyManager.utils.ButtonsUtil;
 import moneyManager.utils.DatabaseUtil;
 import moneyManager.utils.InitializerUtil;
@@ -77,17 +78,17 @@ public class CategoriesController implements Initializable{
 		System.out.println("----------------------------------------------------------");
 		
 		System.out.println("\n---------------Initializing table data----------------------");
-		initializeTableCategories();		
-		System.out.println("----------------------------------------------------------");
-		
+		initializeTableCategories();
+		System.out.println("Enable double click action: ON");
 		enableDoubleClickAction();
+		System.out.println("----------------------------------------------------------");
 	}
 	
 	@FXML
 	public void addCategory(){		
 		
 		try {
-			DatabaseUtil.insertData("Categories", "Category, Note", "'" + addCategoryField.getText() + "', '" + addNoteField.getText() + "'");
+			DatabaseUtil.insertData("Categories", "Category, Note, Hidden", "'" + addCategoryField.getText() + "', '" + addNoteField.getText() + "', false");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,6 +132,9 @@ public class CategoriesController implements Initializable{
     	
     	addCategoryButton.setDisable(true);
     	updateCategoryButton.setDisable(true);
+    	
+    	Stage stage = (Stage) cancelCategoryButton.getScene().getWindow();
+    	stage.close();
 	}
 	
 	@FXML
@@ -167,9 +171,7 @@ public class CategoriesController implements Initializable{
 		            addCategoryField.setText(rowData.getName());		            
 		        	addNoteField.setText(rowData.getNote());
 		        }
-		    });
-		    
-		    System.out.println("Enable double click action: ON");
+		    });		    
 		    return row ;
 		 });
 	}

@@ -65,7 +65,7 @@
                               <Insets bottom="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="closeCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#clear" text="Cancel" HBox.hgrow="ALWAYS">
+                        <Button fx:id="cancelCurrencyButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#clear" text="Cancel" HBox.hgrow="ALWAYS">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>

@@ -21,7 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import moneyManager.constants.ConstantsClass;
+import moneyManager.constants.AppConstants;
 import moneyManager.dom.Category;
 import moneyManager.dom.Currency;
 import moneyManager.dom.Expense;
@@ -62,20 +62,20 @@ public class CurrenciesController implements Initializable{
 		addCurrencyButton.setDisable(true);
 		updateCurrencyButton.setDisable(true);
 		
-		System.out.println("\n----------Initializing table Currencies-------------------");
-		System.out.println("\n------------Initializing table columns--------------------");
+		System.out.println("\nInitializing table Currencies-------------------");
+		System.out.println("\n--Initializing table columns--------------------");
 		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
 		
 		columnsInfo.put(tableCurrenciesColumnCurrency, 0.2);
 		columnsInfo.put(tableCurrenciesColumnNote, 0.8);
 		
 		InitializerUtil.initializeTableColumns(columnsInfo);
-		System.out.println("----------------------------------------------------------");
+		System.out.println("---------------------------------------------------");
 		
-		System.out.println("\n---------------Initializing table data----------------------");
+		System.out.println("\n--Initializing table data------------------------");
 		initializeTableCurrencies();
 		enableDoubleClickAction();
-		System.out.println("----------------------------------------------------------");
+		System.out.println("---------------------------------------------------");
 
 	}
 	
@@ -83,7 +83,7 @@ public class CurrenciesController implements Initializable{
 	public void addCurrency(){		
 		
 		try {			
-			DatabaseUtil.insertData("Currencies", "Currency, Note", "'" + addCurrencyField.getText() + "', '" + addNoteField.getText() + "'");			
+			DatabaseUtil.insertData("Currencies", "Currency, Note, Hidden", "'" + addCurrencyField.getText() + "', '" + addNoteField.getText() + "', false");			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -126,6 +126,10 @@ public class CurrenciesController implements Initializable{
     	
     	addCurrencyButton.setDisable(true);
     	updateCurrencyButton.setDisable(true);
+    	
+    	Stage stage = (Stage) cancelCurrencyButton.getScene().getWindow();
+    	stage.close();
+    	
 	}
 	@FXML
 	public void checkInput(){

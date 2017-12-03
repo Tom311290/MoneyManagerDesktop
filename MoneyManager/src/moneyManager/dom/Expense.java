@@ -12,14 +12,18 @@ public class Expense extends ExpensesData{
 	private SimpleStringProperty note;
 	private SimpleStringProperty cost;
 	private SimpleStringProperty currency;
+	private int currencyID;
 	private SimpleStringProperty category;
+	private int categoryID;
 	private SimpleStringProperty expenseDate;
 	private SimpleStringProperty inputDate;
 	
-	public Expense(String cost, String currency, String category, String note, String expenseDate){
+	public Expense(String cost, String currency, String category, String note, String expenseDate, int currencyID, int categoryID){
 		this.cost = new SimpleStringProperty(cost);
 		this.currency = new SimpleStringProperty(currency);
+		this.currencyID = currencyID;
 		this.category = new SimpleStringProperty(category);
+		this.categoryID = categoryID;
 		this.note = new SimpleStringProperty(note);
 		this.expenseDate = new SimpleStringProperty(expenseDate);
 		this.inputDate = new SimpleStringProperty(LocalDate.now().toString());
@@ -111,6 +115,22 @@ public class Expense extends ExpensesData{
 
 	public String getTableName() {
 		return tableName;
+	}
+
+	public int getCurrencyID() {
+		return currencyID;
+	}
+
+	public void setCurrencyID(int currencyID) {
+		this.currencyID = currencyID;
+	}
+
+	public int getCategoryID() {
+		return categoryID;
+	}
+
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
 	}
 
 
