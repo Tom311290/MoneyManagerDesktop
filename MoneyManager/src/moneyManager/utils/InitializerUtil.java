@@ -63,6 +63,7 @@ public class InitializerUtil {
 		});
 		
 		comboBox.disableProperty().bind(Bindings.isEmpty(comboBox.getItems()));
+
 		comboBox.getSelectionModel().select(list.get(0));
 		comboBox.getSelectionModel().getSelectedItem();
 

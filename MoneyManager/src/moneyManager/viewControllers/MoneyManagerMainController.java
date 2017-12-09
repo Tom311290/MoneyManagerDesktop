@@ -45,9 +45,7 @@ import moneyManager.dom.ExpensesData;
 import moneyManager.utils.*;
 
 public class MoneyManagerMainController implements Initializable {
-	
-	com.sun.javafx.logging.Logger log = new com.sun.javafx.logging.Logger();
-	
+		
 //-------New entry variables------------------------------------------------	
 	
 	@FXML

@@ -5,7 +5,8 @@ public class AppConstants {
 	//database
 	static public final String H2_DRIVER = "org.h2.Driver";
 	static public final String JDBC_URL = "jdbc:h2:~/";
-	static public final String DATABASE_NAME = "HouseMoneyManager;DATABASE_TO_UPPER=false";
+	//static public final String DATABASE_NAME = "HouseMoneyManager;DATABASE_TO_UPPER=false";
+	static public final String DATABASE_NAME = "HouseMoneyManager-prod;DATABASE_TO_UPPER=false";
 	static public final String DATABASE_USER_NAME = "admin";
 	static public final String DATABASE_USER_PASSWORD = "admin";
 	

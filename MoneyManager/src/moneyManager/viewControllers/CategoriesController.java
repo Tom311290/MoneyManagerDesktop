@@ -60,24 +60,24 @@ public class CategoriesController implements Initializable{
 	
 	private String categoryId;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		addCategoryButton.setDisable(true);
 		updateCategoryButton.setDisable(true);
 		
-		System.out.println("\n---------Initializing table of categories--------------------");
-		System.out.println("\n------------Initializing table columns--------------------");
+		System.out.println("---------Initializing table of categories--------------------\n");
+		System.out.println("------------Initializing table columns--------------------");
 		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
 		
 		columnsInfo.put(tableCategoriesColumnCategory, 0.2);
 		columnsInfo.put(tableCategoriesColumnNote, 0.8);
 		
 		InitializerUtil.initializeTableColumns(columnsInfo);
-		System.out.println("----------------------------------------------------------");
+		System.out.println("----------------------------------------------------------\n");
 		
-		System.out.println("\n---------------Initializing table data----------------------");
+		System.out.println("---------------Initializing table data----------------------\n");
 		initializeTableCategories();
 		System.out.println("Enable double click action: ON");
 		enableDoubleClickAction();

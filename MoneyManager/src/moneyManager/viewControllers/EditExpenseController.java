@@ -156,6 +156,9 @@ public class EditExpenseController implements Initializable{
 	private void initializeCurrenciesComboBoxs(ComboBox<Currency> comboBoxId) {
 		
 		ArrayList<Currency> currencyList = DatabaseUtil.fetchCurrencies();
+		if(currencyList.size() == 0){
+			
+		}
 		InitializerUtil.initializeCurrencyComboBox(comboBoxId, currencyList);
 	}
 	
