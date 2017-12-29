@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="990.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moneyManager.viewControllers.MoneyManagerMainController">
@@ -37,29 +33,16 @@
    <center>
       <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Expenses table overview">
-               <content>
-                  <TableView fx:id="tableExpenses" prefHeight="200.0" prefWidth="200.0">
-                    <columns>
-                      <TableColumn fx:id="tableExpensesColumnCost" prefWidth="75.0" text="Cost" />
-                        <TableColumn fx:id="tableExpensesColumnCurrency" prefWidth="75.0" text="Currency" />
-                      <TableColumn fx:id="tableExpensesColumnCategory" prefWidth="75.0" text="Category" />
-                        <TableColumn fx:id="tableExpensesColumnNote" prefWidth="75.0" text="Note" />
-                        <TableColumn fx:id="tableExpensesColumnExpenseDate" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Expense date" />
-                        <TableColumn fx:id="tableExpensesColumnInputDate" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Input date" />
-                    </columns>
-                  </TableView>
-               </content>
-          </Tab>
-            <Tab text="Expenses graphical overview">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <PieChart fx:id="pieChart" layoutX="195.0" layoutY="14.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
+          <Tab text="Expenses table">
+          	<content>
+          		<fx:include id="tableOverview" source="ExpensesTableOverview.fxml" />
+			</content>
+		  </Tab>
+          <Tab text="Expenses chart">
+            <content>
+          		<fx:include id="tableOverview" source="ExpensesChartOverview.fxml" />
+			</content>
+		  </Tab>
         </tabs>
       </TabPane>
    </center>

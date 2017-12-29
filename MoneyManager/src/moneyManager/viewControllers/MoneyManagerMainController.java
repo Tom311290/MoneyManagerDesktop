@@ -36,6 +36,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DataFormat;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import moneyManager.constants.AppConstants;
 import moneyManager.dom.Category;
@@ -45,60 +46,26 @@ import moneyManager.dom.ExpensesData;
 import moneyManager.utils.*;
 
 public class MoneyManagerMainController implements Initializable {
-		
-//-------New entry variables------------------------------------------------	
 	
-	@FXML
-	public TableView<Expense> tableExpenses;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesColumnID;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesColumnCost;
-	@FXML
-	public TableColumn<Expense, Currency> tableExpensesColumnCurrency;
-	@FXML
-	public TableColumn<Expense, Category> tableExpensesColumnCategory;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesColumnNote;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesColumnExpenseDate;
-	@FXML
-	public TableColumn<Expense, String> tableExpensesColumnInputDate;
-	
-	public long currencyId;
-	public long categoryId;
-
-//-------------------------------------------------------------------------------
+	private ExpensesTableOverviewController expensesTableCtrl= null;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
-		System.out.println("Initializing table Expenses-------------------");
-
-		System.out.println("--Initializing table columns----------------\n");		
-		HashMap<TableColumn, Double> columnsInfo = new HashMap<TableColumn, Double>();
-		
-		columnsInfo.put(tableExpensesColumnCost, 0.1);
-		columnsInfo.put(tableExpensesColumnCurrency, 0.1);
-		columnsInfo.put(tableExpensesColumnCategory, 0.1);
-		columnsInfo.put(tableExpensesColumnNote, 0.45);
-		columnsInfo.put(tableExpensesColumnExpenseDate, 0.125);	
-		columnsInfo.put(tableExpensesColumnInputDate, 0.125);	
-
-		InitializerUtil.initializeTableColumns(columnsInfo);
-		
-		System.out.println("--Initializing table data--------------------\n");		
-		initializeTableExpenses();
-		enableDoubleClickAction();
-		System.out.println("-----------------------------------------------");
-				
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			try {
+				fxmlLoader.load(getClass().getResource(AppConstants.EXPENSES_TABLE_OVERVIEW).openStream());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			expensesTableCtrl = (ExpensesTableOverviewController) fxmlLoader.getController();
 	}
 	
 	@FXML
 	public void openNewExpenseWindow (){
 		openNewWindow("New expense", AppConstants.NEW_EXPENSE);
-		initializeTableExpenses();
+		expensesTableCtrl.initializeTableExpenses();
 	}
 
 	@FXML
@@ -128,67 +95,8 @@ public class MoneyManagerMainController implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle(windowName);
 		stage.setScene(scene);
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.showAndWait();
-	}
-
-	/**
-	 * Opens new window and sets initial data (ex.: double click on row opens a new window with data
-	 * from that row)
-	 * @param windowName
-	 * @param resource
-	 * @param expense
-	 */
-	private void openNewWindow2(String windowName, String resource, Expense expense){
-		
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
-		
-		Parent root = null;
-		try {
-			root = fxmlLoader.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		EditExpenseController controller = setChildData(fxmlLoader, expense);		
-
-		Scene scene = new Scene(root);		
-		Stage stage = new Stage();
-		stage.setTitle(windowName);
-		stage.setScene(scene);
-		
-		stage.showAndWait();
-		initializeTableExpenses();
-	}
-	
-	private EditExpenseController setChildData(FXMLLoader loader, Expense expense){
-		EditExpenseController controller = loader.getController();
-
-		return controller.initializeController(expense);		
-	}
-	
-	private void enableDoubleClickAction(){		
-		
-		tableExpenses.setRowFactory( tableView -> {
-			
-		    TableRow<Expense> row = new TableRow<>();		    
-		    row.setOnMouseClicked(event -> {
-		        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-		        	
-		        	Expense rowData = row.getItem();		        	
-		        	openNewWindow2("Edit expense", AppConstants.EDIT_EXPENSE, rowData);
-		        }
-		    });
-		    return row ;
-		 });
-	}	
-	
-	private void initializeTableExpenses(){
-		
-		ArrayList<Expense> listOfExpenses = new ArrayList<Expense>();		
-		listOfExpenses = DatabaseUtil.fetchExpenses();
-
-		tableExpenses.getItems().setAll(listOfExpenses);
 	}
 }
 

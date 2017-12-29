@@ -57,7 +57,6 @@ public class NewExpenseController implements Initializable{
 	public DatePicker expenseDate;	
 	
 	public String expenseId;
-	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -72,13 +71,26 @@ public class NewExpenseController implements Initializable{
 	private void initializeCurrenciesComboBoxs(ComboBox<Currency> comboBoxId) {
 		
 		ArrayList<Currency> currencyList = DatabaseUtil.fetchCurrencies();
-		InitializerUtil.initializeCurrencyComboBox(comboBoxId, currencyList);
+		if(currencyList.size() == 0){
+			Alert alert = new Alert(AlertType.WARNING, "Please specify at least one currency before adding new expense", ButtonType.OK);
+			alert.showAndWait();
+			return;
+		}else{
+			InitializerUtil.initializeCurrencyComboBox(comboBoxId, currencyList);
+		}		
 	}
 	
 	private void initializeCategoriesComboBox(ComboBox<Category> comboBoxId) {
 		
 		ArrayList<Category> currencyList = DatabaseUtil.fetchCategories();
-		InitializerUtil.initializeCategoryComboBox(comboBoxId, currencyList);
+		
+		if(currencyList.size() == 0){
+			Alert alert = new Alert(AlertType.WARNING, "Please specify at least one category before adding new expense", ButtonType.OK);
+			alert.showAndWait();
+			return;
+		}else{
+			InitializerUtil.initializeCategoryComboBox(comboBoxId, currencyList);
+		}
 	}
 	
 	@FXML
@@ -100,9 +112,6 @@ public class NewExpenseController implements Initializable{
 				String tableName = "Expenses";
 				
 				DatabaseUtil.insertData(tableName, columns, entryString);
-				
-				Stage stage = (Stage) newExpenseSaveButton.getScene().getWindow();
-		    	stage.close();
 				
 			}else{
 				Alert alert = new Alert(AlertType.WARNING, messages, ButtonType.OK);

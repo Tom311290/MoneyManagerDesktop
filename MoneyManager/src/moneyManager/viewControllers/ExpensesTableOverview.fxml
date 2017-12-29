@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="tableExpenses" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moneyManager.viewControllers.ExpensesTableOverviewController">
+   <columns>
+      <TableColumn fx:id="tableExpensesColumnCost" prefWidth="75.0" text="Cost" />
+      <TableColumn fx:id="tableExpensesColumnCurrency" prefWidth="75.0" text="Currency" />
+      <TableColumn fx:id="tableExpensesColumnCategory" prefWidth="75.0" text="Category" />
+      <TableColumn fx:id="tableExpensesColumnNote" prefWidth="75.0" text="Note" />
+      <TableColumn fx:id="tableExpensesColumnExpenseDate" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Expense date" />
+      <TableColumn fx:id="tableExpensesColumnInputDate" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Input date" />
+   </columns>
+</TableView>

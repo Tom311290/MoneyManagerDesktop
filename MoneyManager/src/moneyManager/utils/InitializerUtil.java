@@ -6,11 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.beans.binding.Bindings;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
+import moneyManager.constants.AppConstants;
 import moneyManager.dom.Category;
 import moneyManager.dom.Currency;
 import moneyManager.dom.Expense;
@@ -63,10 +67,9 @@ public class InitializerUtil {
 		});
 		
 		comboBox.disableProperty().bind(Bindings.isEmpty(comboBox.getItems()));
-
+		
 		comboBox.getSelectionModel().select(list.get(0));
-		comboBox.getSelectionModel().getSelectedItem();
-
+		comboBox.getSelectionModel().getSelectedItem();		
 	}
 	
 	public static void initializeCategoryComboBox(ComboBox<Category> comboBox, ArrayList<Category> list){
@@ -90,7 +93,6 @@ public class InitializerUtil {
 		comboBox.disableProperty().bind(Bindings.isEmpty(comboBox.getItems()));
 		comboBox.getSelectionModel().select(list.get(0));
 		comboBox.getSelectionModel().getSelectedItem();
-
 	}
 
 	
