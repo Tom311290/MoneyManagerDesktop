@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -25,6 +26,8 @@ import moneyManager.utils.InitializerUtil;
 
 public class ExpensesTableOverviewController implements Initializable{
 
+	@FXML
+	public Button refreshTable;
 	@FXML
 	public TableView<Expense> tableExpenses;
 	@FXML

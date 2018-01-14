@@ -48,7 +48,9 @@ public class NewExpenseController implements Initializable{
 	@FXML
 	public TextField newExpenseCost;
 	@FXML
-	public TextArea newExpenseNote;	
+	public TextArea newExpenseNote;
+	@FXML
+	public TextArea newExpenseEntryLog;
 	@FXML
 	public ComboBox<Currency> newExpenseCurrencies = new ComboBox<Currency>();
 	@FXML
@@ -57,6 +59,7 @@ public class NewExpenseController implements Initializable{
 	public DatePicker expenseDate;	
 	
 	public String expenseId;
+	private String log ="";
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -112,6 +115,15 @@ public class NewExpenseController implements Initializable{
 				String tableName = "Expenses";
 				
 				DatabaseUtil.insertData(tableName, columns, entryString);
+				
+				log += "Expense date: " +expenseDate.getValue().toString() +
+						"\n Cost: " + newExpenseCost.getText() +
+						"\n Currency: " + newExpenseCurrencies.getValue().getName() +
+						"\n Category: " + newExpenseCategories.getValue().getName() + 
+						"\n Note: " + newExpenseNote.getText() +
+						"\n---------------------------\n";			
+				
+				newExpenseEntryLog.setText(log);
 				
 			}else{
 				Alert alert = new Alert(AlertType.WARNING, messages, ButtonType.OK);
