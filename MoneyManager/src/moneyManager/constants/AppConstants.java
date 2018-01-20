@@ -5,8 +5,8 @@ public class AppConstants {
 	//database
 	static public final String H2_DRIVER = "org.h2.Driver";
 	static public final String JDBC_URL = "jdbc:h2:~/";
-	static public final String DATABASE_NAME = "HouseMoneyManager;DATABASE_TO_UPPER=false";
-	//static public final String DATABASE_NAME = "HouseMoneyManager-prod;DATABASE_TO_UPPER=false";
+	//static public final String DATABASE_NAME = "HouseMoneyManager;DATABASE_TO_UPPER=false";
+	static public final String DATABASE_NAME = "HouseMoneyManager-prod;DATABASE_TO_UPPER=false";
 	static public final String DATABASE_USER_NAME = "admin";
 	static public final String DATABASE_USER_PASSWORD = "admin";
 	
@@ -18,6 +18,7 @@ public class AppConstants {
 	static public final String EDIT_EXPENSE = "EditExpense.fxml";
 	static public final String NEW_EXPENSE = "NewExpense.fxml";
 	static public final String EXPENSES_TABLE_OVERVIEW = "ExpensesTableOverview.fxml";
+	static public final String EXPENSES_CHART_OVERVIEW = "ExpensesChartOverviewController.fxml";
 
 	//css files
 	static public final String APP_CSS = "application.css";

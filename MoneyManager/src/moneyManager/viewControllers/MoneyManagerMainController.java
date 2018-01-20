@@ -52,14 +52,7 @@ public class MoneyManagerMainController implements Initializable {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-			FXMLLoader fxmlLoader = new FXMLLoader();
-			try {
-				fxmlLoader.load(getClass().getResource(AppConstants.EXPENSES_TABLE_OVERVIEW).openStream());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			expensesTableCtrl = (ExpensesTableOverviewController) fxmlLoader.getController();
+			
 	}
 	
 	@FXML

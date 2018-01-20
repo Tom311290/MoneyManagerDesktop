@@ -40,7 +40,7 @@
 		  </Tab>
           <Tab text="Expenses chart">
             <content>
-          		<fx:include id="tableOverview" source="ExpensesChartOverview.fxml" />
+          		<fx:include id="chartOverview" source="ExpensesChartOverview.fxml" />
 			</content>
 		  </Tab>
         </tabs>
